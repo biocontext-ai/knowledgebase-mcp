@@ -125,6 +125,9 @@ testpaths = ["tests"]
 python_files = "test_*.py"
 python_functions = "test_*"
 asyncio_mode = "auto"
+markers = [
+    "no_ci: marks tests that should not run in CI environments",
+]
 
 [tool.coverage.run]
 source = ["biocontext_kb"]

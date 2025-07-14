@@ -50,7 +50,7 @@ jobs:
           uv run ruff format --check src
       - name: Test with pytest
         run: |
-          uv run pytest --cov=biocontext_kb --cov-report=term-missing --maxfail=5
+          uv run pytest --cov=biocontext_kb --cov-report=term-missing --maxfail=5 -m "not no_ci"
           uv run coverage xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

@@ -1,10 +1,11 @@
-import pytest  # noqa: F401
+import pytest
 import pytest_asyncio  # noqa: F401
 from fastmcp import Client
 
 from biocontext_kb.core._server import core_mcp
 
 
+@pytest.mark.no_ci
 async def test_search_google_scholar_publications():
     """Test the tool search_google_scholar_publications."""
     async with Client(core_mcp) as client:
@@ -23,6 +24,7 @@ async def test_search_google_scholar_publications():
             assert isinstance(result.data["publications"], list)
 
 
+@pytest.mark.no_ci
 async def test_search_google_scholar_publications_empty():
     """Test the tool search_google_scholar_publications with empty query."""
     async with Client(core_mcp) as client:
@@ -34,6 +36,7 @@ async def test_search_google_scholar_publications_empty():
         assert "error" in result.data or result.data.get("total_found", 0) == 0
 
 
+@pytest.mark.no_ci
 async def test_search_google_scholar_publications_by_author():
     """Test the tool search_google_scholar_publications with author field."""
     async with Client(core_mcp) as client:
@@ -61,6 +64,7 @@ async def test_search_google_scholar_publications_by_author():
                     assert "title" in pub
 
 
+@pytest.mark.no_ci
 async def test_search_google_scholar_publications_author_with_topic():
     """Test the tool search_google_scholar_publications with author and topic."""
     async with Client(core_mcp) as client:
@@ -81,6 +85,7 @@ async def test_search_google_scholar_publications_author_with_topic():
             assert result.data["query"] == 'author:"Geoffrey Hinton" deep learning'
 
 
+@pytest.mark.no_ci
 async def test_search_google_scholar_publications_with_proxy():
     """Test the tool search_google_scholar_publications with proxy enabled."""
     async with Client(core_mcp) as client:
