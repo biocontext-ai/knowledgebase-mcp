@@ -1,24 +1,21 @@
 # BioContextAI - Knowledgebase MCP
 
-[![BioContextAI - Registry](https://img.shields.io/badge/Registry-package?style=flat&label=BioContextAI&labelColor=%23fff&color=%233555a1&link=https%3A%2F%2Fbiocontext.ai%2Fecosystem)](https://biocontext.ai/ecosystem)
+[![BioContextAI - Registry](https://img.shields.io/badge/Registry-package?style=flat&label=BioContextAI&labelColor=%23fff&color=%233555a1&link=https%3A%2F%2Fbiocontext.ai%2Fregistry)](https://biocontext.ai/registry)
 [![Version](https://img.shields.io/pypi/v/biocontext_kb)](https://pypi.org/project/biocontext_kb/)
 [![License](https://img.shields.io/pypi/l/biocontext_kb)](https://github.com/complextissue/biocontext_kb)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![GitHub CI](https://github.com/biocontext-ai/core-mcp-server-dev/actions/workflows/ci.yaml/badge.svg)](https://github.com/biocontext-ai/core-mcp-server-dev/actions/workflows/ci.yaml)
-[![codecov](https://codecov.io/github/biocontext-ai/core-mcp-server-dev/graph/badge.svg?token=YX4KpHQtsR)](https://codecov.io/github/biocontext-ai/core-mcp-server-dev)
+[![GitHub CI](https://github.com/biocontext-ai/knowledgebase-mcp/actions/workflows/ci.yaml/badge.svg)](https://github.com/biocontext-ai/knowledgebase-mcp/actions/workflows/ci.yaml)
+[![codecov](https://codecov.io/github/biocontext-ai/knowledgebase-mcp/graph/badge.svg?token=YX4KpHQtsR)](https://codecov.io/github/biocontext-ai/knowledgebase-mcp)
 
-A Model Context Protocol (MCP) server for biomedical research that provides a standardized connection layer between artificial intelligence systems and biomedical resources.
-Documentation and usage guides are available at: https://biocontext.ai
-
-Our preprint is available at: TBA.
+A Model Context Protocol (MCP) server for biomedical research that provides a standardized connection layer between artificial intelligence systems and biomedical resources. Documentation and usage guides are available at: https://biocontext.ai
 
 ## Overview
 
-BioContextAI Knowledgebase MCP implements MCP servers for common biomedical resources, enabling agentic large language models (LLMs) to retrieve verified information and perform domain-specific tasks. Unlike previous approaches requiring custom integration for each resource, BioContextAI provides a unified access layer through the Model Context Protocol that enables interoperability between AI systems and domain-specific data sources.
+**BioContextAI Knowledgebase MCP** is an MCP server implementation for common biomedical resources, enabling agentic large language models (LLMs) to retrieve verified information and perform domain-specific tasks. Unlike previous approaches that required custom integration for each resource, BioContextAI KB MCP provides a unified access layer through the Model Context Protocol that enables interoperability between AI systems and domain-specific data sources.
 
-BioContextAI is available both as:
+The Knowledgebase MCP is available both as:
 
 - An open-source software package for local hosting (see [Self-hosting](#self-hosting))
 - A remote server for setup-free integration at https://mcp.biocontext.ai/mcp/ (subject to fair use)
@@ -26,7 +23,13 @@ BioContextAI is available both as:
 > [!WARNING]
 > If possible, we encourage you to run BioContextAI Knowledgebase MCP locally to avoid rate limits and ensure the service's availability for applications that rely on remote hosting.
 
-The **BioContextAI Registry** catalogues community servers that expose biomedical databases and analysis tools, providing the community with a resource for tool discovery and distribution. The ecosystem index can be found at: https://biocontext.ai/ecosystem.
+The Knowledgebase MCP is part of the wider [BioContextAI project](https://biocontext.ai). The **BioContextAI Registry** catalogues community servers that expose biomedical databases and analysis tools, providing the community with a resource for tool discovery and distribution. The registry index can be found at: https://biocontext.ai/registry.
+
+## Citation
+
+If our work is useful to your research, please cite it as below.
+
+> TBA.
 
 ## Implemented Tools
 
@@ -72,7 +75,7 @@ cd core-mcp-server
 
 Then run one of the following:
 
-1. Remote server production use cases (gunicorn with multiple uvicorn workers):
+1. Docker setup (gunicorn with multiple uvicorn workers):
 
 ```bash
 # Build the docker container
@@ -80,12 +83,12 @@ docker build -t biocontext_kb:latest .
 docker run -p 127.0.0.1:8000:8000 biocontext_kb:latest
 ```
 
-This exposes your MCP server at: 127.0.0.1:8000/mcp/
+This exposes your MCP server at: http://127.0.0.1:8000/mcp/
 
 > [!WARNING]
 > For public deployments, you should disabled unnecessary ports and access your MCP server through a reverse proxy, e.g., Nginx or Caddy. You may also want to configure the running user and the directory to have limited rights, use Docker or podman in a rootless setup and take additional security measures like DDOS protection with Cloudflare or fail2ban.
 
-2. Locally, with streamable HTTP and uvicorn:
+2. Local setup with `uv`, with streamable HTTP and uvicorn:
 
 ```bash
 uv build
@@ -94,7 +97,7 @@ export PORT=8000
 biocontext_kb
 ```
 
-3. Locally, with stdio transport:
+3. Locall setup with `uv`, with stdio transport:
 
 ```bash
 uv build
@@ -102,7 +105,7 @@ export MCP_ENVIRONMENT=DEVELOPMENT
 biocontext_kb
 ```
 
-4. Locally, with Claude Desktop (`claude_desktop_config.json`):
+4. Locall setup with Claude Desktop (`claude_desktop_config.json`):
 
 ```json
 {
@@ -120,7 +123,7 @@ biocontext_kb
 }
 ```
 
-Don't forget to restart Claude to apply the changes.
+**Don't forget to restart Claude to apply the changes.**
 
 5. Locally, with your coding agents in VS Code (`.vscode/mcp.json`) or Cursor (`.cursor/mcp.json`) or WindSurf (`.codeium/windsurf/mcp_config.json`):
 
@@ -129,8 +132,8 @@ Don't forget to restart Claude to apply the changes.
   // VS Code: "servers"
   "mcpServers": {
     "biocontext_kb": {
-      // this should be the output of `which uvx` (installation via Homebrew recommended on macOS)
-      "command": "/opt/homebrew/bin/uvx",
+      // if it doesn't work, replace with the `which uvx` path (installation via Homebrew recommended on macOS)
+      "command": "uvx",
       "args": [
         "biocontext_kb@latest"
       ],
@@ -148,10 +151,7 @@ When using Windows and WSL2 the above config needs to be adapted as follows:
     "biocontext_kb": {
       "command": "wsl",
       "args": [
-        "--cd",
-        "your_directory/core-mcp-server/",
-        "~/.local/bin/uv", // set to the path to your `uv`
-        "run",
+        "~/.local/bin/uvx", // set to the path to your `uvx`
         "biocontext_kb"
       ]
     }
@@ -159,44 +159,18 @@ When using Windows and WSL2 the above config needs to be adapted as follows:
 }
 ```
 
-6. Locally, with your own agents:
+6. Locally, with your own MCP clients:
 
-- Follow the `FastMCP` [setup guide](https://gofastmcp.com/getting-started/installation)
-- Follow the `pydanticAI` [setup guide](https://ai.pydantic.dev/mcp/client/)
+- Follow the `PydanticAI` [setup guide](https://ai.pydantic.dev/mcp/client/)
+- Follow the `FastMCP` [setup guide](https://gofastmcp.com/getting-started/welcome)
 - Follow the `mcp-use` [setup guide](https://github.com/mcp-use/mcp-use)
-
-## Building agents and applications with BioContextAI Knowledgebase MCP
-
-There are important considerations to take into account when building AI systems on top of BioContextAI Knowledgebase MCP. They largely come down to two factors: Model capability needs and costs of external access.
-
-### Model capability needs
-
-Using the BioContextAI Knowledgebase MCP MCP server, biomedical knowledge is not extracted from the model weights of the LLM but rather accessed through external knowledge bases. This means, that the role of the LLM changes. World knowledge becomes less important, while context length and efficiency become more relevant.
-
-Some APIs may respond with payloads that are tens of thousands of tokens long, requiring longer context lengths, especially when users chain multiple messages. However, extracting information from these payloads is comparatively "easy" for many LLMs, even those with few parameters.
-
-We thus recommend using small non-reasoning models with a large context window to process the output from the BioContextAI Knowledgebase MCP tools. While you may still find it useful to use larger models to generate the tool calls (e.g., for more complicated GraphQL queries), building multi-LLM systems where the payload of the tool call is only ever seen by small models can ensure speed, competitive price and decreased environmental impact of your applications.
-
-### Costs of external access
-
-While the APIs exposed through BioContextAI Knowledgebase MCP are free for academic research, they often are rate limited or ask users not to overburden their servers. When building AI systems, you should inform yourself on these limits and enact measures to reduce the reliance on these network calls when deploying to many users. This includes caching of common tool calls, rate-limiting and optimizing your system prompt to use efficient tool calls. This benefits the users of the application as well, as network requests can introduce multi-second delays.
-In the future, we plan to implement caching as part of BioContextAI Knowledgebase MCP itself and welcome contributions in this area.
-
-## Future Development
-
-BioContextAI is under active development and welcomes contributions in the following areas:
-
-- Integrations with additional APIs
-- Establishing both local and remote deployment best practices for non-core MCP servers
-- Additional templates to connect developers with users and remove usage barriers
-- Authentication and rate limiting
-- Query caching
 
 ## Resources
 
-- Documentation: https://biocontext.ai
-- BioContextAI Registry: https://github.com/biocontext-ai/ecosystem
-- Chat Interface: https://chat.biocontext.ai (OpenAI API key required)
+- Project documentation: https://biocontext.ai
+- API documentationt: https://docs.kb.biocontext.ai/
+- BioContextAI Registry: https://github.com/biocontext-ai/registry
+- Chat Interface: https://biocontext.ai/chat
 
 ## License
 
