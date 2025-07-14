@@ -2,7 +2,7 @@
 
 [![BioContextAI - Registry](https://img.shields.io/badge/Registry-package?style=flat&label=BioContextAI&labelColor=%23fff&color=%233555a1&link=https%3A%2F%2Fbiocontext.ai%2Fregistry)](https://biocontext.ai/registry)
 [![Version](https://img.shields.io/pypi/v/biocontext_kb)](https://pypi.org/project/biocontext_kb/)
-[![License](https://img.shields.io/pypi/l/biocontext_kb)](https://github.com/complextissue/biocontext_kb)
+[![License](https://img.shields.io/pypi/l/biocontext_kb)](https://github.com/biocontext-ai/biocontext_kb)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
