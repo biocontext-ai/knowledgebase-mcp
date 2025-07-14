@@ -158,7 +158,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/92/8d/e296c7af03757debd
 
 [[package]]
 name = "biocontext-kb"
-version = "0.2.5"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "asyncio" },
