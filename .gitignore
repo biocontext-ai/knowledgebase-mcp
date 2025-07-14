@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Package setup
+*.egg-info
+/build
+/dist
+
+# Sphinx documentation
+docs/_build/*
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# MacOS
+.DS_Store
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+.vscode
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ignore keys
+*.crt
+*.key
+
+# Ignore TODO list
+TODO.md
+CHANGELOG.md
+/.trash
+.DS_Store
+
+# Ignore testing cache
+.pytest_cache
+.coverage
+coverage.xml
+.ruff_cache
+htmlcov
+
+# Keep folders indicated by .gitkeep
+!/**/.gitkeep
+!/**/.gitignore

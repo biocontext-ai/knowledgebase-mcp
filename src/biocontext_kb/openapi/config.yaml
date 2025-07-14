@@ -1,0 +1,23 @@
+schemas:
+  # - id: uniprot
+  #   name: UniProt
+  #   url: https://rest.uniprot.org/uniprotkb/api/docs
+  #   type: json
+  # - id: clinicaltrials
+  #   name: ClinicalTrials
+  #   url: https://clinicaltrials.gov/api/oas/v2
+  #   type: yaml
+  # - id: orphadata
+  #   name: Orphadata
+  #   url: https://api.orphadata.com/openapi.json
+  #   base: https://api.orphadata.com/
+  #   type: json
+  # - id: go
+  #   name: GeneOntology
+  #   url: https://api.geneontology.org/openapi.json
+  #   base: https://api.geneontology.org
+  #   type: json
+  # - id: opengenes
+  #   name: OpenGenes
+  #   url: https://open-genes.com/api/openapi.json
+  #   type: json

@@ -1,0 +1,58 @@
+name: Test Package
+
+on:
+  schedule:
+    # run every Wednesday at 17:00 UTC
+    - cron: "0 17 * * 3"
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            python: "3.12"
+
+    name: Python ${{ matrix.python }}
+
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ matrix.python }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+      - name: Install dependencies
+        run: |
+          uv sync
+      - name: Lint with ruff
+        run: |
+          uv run ruff check --fix --exit-non-zero-on-fix src
+      - name: Format with ruff
+        run: |
+          uv run ruff format --check src
+      - name: Test with pytest
+        run: |
+          uv run pytest --cov=biocontext_kb --cov-report=term-missing --maxfail=5
+          uv run coverage xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
