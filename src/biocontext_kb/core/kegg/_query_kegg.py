@@ -1,9 +1,10 @@
 from enum import Enum
 from typing import Annotated, List, Optional, Union
 
+from pydantic import BaseModel, Field, field_validator
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.core.kegg._execute_kegg_query import execute_kegg_query
-from pydantic import BaseModel, Field, field_validator
 
 
 class KeggOperation(str, Enum):

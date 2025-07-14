@@ -1,7 +1,8 @@
 import logging
 
-from biocontext_kb.utils import slugify
 from fastmcp.server.openapi import FastMCPOpenAPI
+
+from biocontext_kb.utils import slugify
 
 logger = logging.getLogger(__name__)
 

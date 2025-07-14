@@ -5,8 +5,9 @@ from pathlib import Path
 import httpx
 import requests
 import yaml
-from biocontext_kb.openapi._check_valid_mcp import check_valid_mcp
 from fastmcp.server.openapi import FastMCPOpenAPI, RouteMap, RouteType
+
+from biocontext_kb.openapi._check_valid_mcp import check_valid_mcp
 
 logger = logging.getLogger(__name__)
 

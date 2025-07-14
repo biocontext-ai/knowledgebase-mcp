@@ -2,8 +2,9 @@ import logging
 from typing import Annotated, Any, Dict
 
 import requests
-from biocontext_kb.core._server import core_mcp
 from pydantic import Field
+
+from biocontext_kb.core._server import core_mcp
 
 logger = logging.getLogger(__name__)
 

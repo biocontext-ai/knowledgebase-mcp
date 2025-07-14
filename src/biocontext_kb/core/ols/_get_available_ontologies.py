@@ -1,6 +1,7 @@
 from typing import Any, Dict
 
 import requests
+
 from biocontext_kb.core._server import core_mcp
 
 

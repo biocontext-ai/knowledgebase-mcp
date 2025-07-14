@@ -1,9 +1,10 @@
 from typing import Annotated, Any, Dict, List, Union
 
 import requests
+from pydantic import Field
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.core.stringdb._get_string_id import get_string_id
-from pydantic import Field
 
 
 @core_mcp.tool()

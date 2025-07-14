@@ -1,8 +1,9 @@
 from typing import Annotated, Any, Dict, Optional
 
+from pydantic import Field
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.core.panglaodb._get_panglaodb_df import get_panglaodb_df
-from pydantic import Field
 
 
 @core_mcp.tool()

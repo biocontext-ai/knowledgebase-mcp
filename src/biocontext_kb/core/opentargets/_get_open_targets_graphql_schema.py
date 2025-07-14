@@ -1,6 +1,7 @@
+from graphql import print_schema
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.utils import fetch_graphql_schema
-from graphql import print_schema
 
 
 @core_mcp.tool()

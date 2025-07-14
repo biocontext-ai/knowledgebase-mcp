@@ -2,11 +2,12 @@ import asyncio
 import logging
 import os
 
+from fastmcp import FastMCP
+from starlette.middleware.cors import CORSMiddleware
+
 from biocontext_kb.core import core_mcp
 from biocontext_kb.openapi import get_openapi_mcps
 from biocontext_kb.utils import slugify
-from fastmcp import FastMCP
-from starlette.middleware.cors import CORSMiddleware
 
 logger = logging.getLogger(__name__)
 

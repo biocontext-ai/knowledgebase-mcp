@@ -1,6 +1,8 @@
 from typing import Annotated
 
 import requests
+from pydantic import Field
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.core.alphafold._get_alphafold_info_by_uniprot_id import (
     get_alphafold_info_by_uniprot_id,
@@ -8,7 +10,6 @@ from biocontext_kb.core.alphafold._get_alphafold_info_by_uniprot_id import (
 from biocontext_kb.core.uniprot._get_uniprot_id_by_protein_symbol import (
     get_uniprot_id_by_protein_symbol,
 )
-from pydantic import Field
 
 
 @core_mcp.tool()

@@ -2,8 +2,9 @@ from typing import Annotated, Any, Dict, Optional, Union
 from urllib.parse import quote
 
 import requests
-from biocontext_kb.core._server import core_mcp
 from pydantic import Field
+
+from biocontext_kb.core._server import core_mcp
 
 
 @core_mcp.tool()

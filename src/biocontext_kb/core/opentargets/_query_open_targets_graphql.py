@@ -1,8 +1,9 @@
 from typing import Annotated, Optional
 
+from pydantic import Field
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.utils import execute_graphql_query
-from pydantic import Field
 
 
 @core_mcp.tool()

@@ -1,9 +1,10 @@
 from typing import Annotated, Optional
 
 import requests
+from pydantic import Field
+
 from biocontext_kb.core._server import core_mcp
 from biocontext_kb.core.ensembl import get_ensembl_id_from_gene_symbol
-from pydantic import Field
 
 
 @core_mcp.tool()

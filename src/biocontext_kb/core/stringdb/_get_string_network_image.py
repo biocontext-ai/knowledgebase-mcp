@@ -3,10 +3,11 @@ from typing import Annotated
 
 import requests
 from PIL import Image as PILImage
-from biocontext_kb.core._server import core_mcp
-from biocontext_kb.core.stringdb._get_string_id import get_string_id
 from fastmcp.utilities.types import Image
 from pydantic import Field
+
+from biocontext_kb.core._server import core_mcp
+from biocontext_kb.core.stringdb._get_string_id import get_string_id
 
 
 @core_mcp.tool()

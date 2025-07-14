@@ -1,8 +1,9 @@
 from typing import Annotated
 
 import requests
-from biocontext_kb.core._server import core_mcp
 from pydantic import Field
+
+from biocontext_kb.core._server import core_mcp
 
 
 @core_mcp.tool()
