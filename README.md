@@ -208,7 +208,3 @@ This project is licensed under the Apache License 2.0 - see the LICENSE file for
 **Users are solely responsible for ensuring compliance with all applicable license terms and conditions when accessing data through this MCP server.** The licenses and terms listed above are subject to change, and additional citation requirements may apply for specific datasets or publications. Before using any data for commercial purposes, redistribution, or publication, please review the current license terms directly from each data source. Some data sources may have additional restrictions not fully captured in this summary.
 
 For KEGG data specifically, please note that while academic use is permitted, providing commercial services or remote hosting using KEGG data is not allowed under their proprietary license terms.
-
-**Users are solely responsible for ensuring compliance with all applicable license terms and conditions when accessing data through this MCP server.** The licenses and terms listed above are subject to change, and additional citation requirements may apply for specific datasets or publications. Before using any data for commercial purposes, redistribution, or publication, please review the current license terms directly from each data source. Some data sources may have additional restrictions not fully captured in this summary.
-
-For KEGG data specifically, please note that while academic use is permitted, providing commercial services or remote hosting using KEGG data is not allowed under their proprietary license terms.

@@ -1,6 +1,6 @@
 [project]
 name = "biocontext_kb"
-version = "0.1.1"
+version = "0.1.2"
 description = "An MCP server for biomedical research."
 readme = "README.md"
 requires-python = ">=3.12"
