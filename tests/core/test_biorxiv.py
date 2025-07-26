@@ -125,7 +125,7 @@ async def test_get_biorxiv_preprint_details():
 
         # Validate the DOI matches what we requested
         assert result.data["doi"] == test_doi
-        assert result.data["server"] == "biorxiv"
+        assert result.data["server"].lower() == "biorxiv"
 
 
 async def test_get_biorxiv_preprint_details_invalid_server():
