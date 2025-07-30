@@ -86,8 +86,8 @@ The above data is provided without warranty and may be inaccurate or out-of-date
 Clone the latest version of this repository:
 
 ```bash
-git clone https://github.com/biocontext-ai/core-mcp-server.git
-cd core-mcp-server
+git clone https://github.com/biocontext-ai/knowlegebase-mcp.git
+cd knowlegebase-mcp
 ```
 
 Then run one of the following:
