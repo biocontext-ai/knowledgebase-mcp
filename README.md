@@ -17,36 +17,13 @@ A Model Context Protocol (MCP) server for biomedical research that provides a st
 
 The Knowledgebase MCP is available both as:
 
-- An open-source software package for local hosting (see [Self-hosting](#self-hosting))
-- A remote server for setup-free integration at https://mcp.biocontext.ai/mcp/ (subject to fair use)
+- An open-source software package for local hosting (see [Installation](#installation)) - **Choose this option for Claude Desktop, IDEs or your own agentic systems**
+- A remote server for setup-free integration at https://mcp.biocontext.ai/mcp/ (for testing purposes only, subject to fair use)
 
 > [!WARNING]
 > If possible, we encourage you to run BioContextAI Knowledgebase MCP locally to avoid rate limits and ensure the service's availability for applications that rely on remote hosting.
 
 The Knowledgebase MCP is part of the wider [BioContextAI project](https://biocontext.ai). The **BioContextAI Registry** catalogues community servers that expose biomedical databases and analysis tools, providing the community with a resource for tool discovery and distribution. The registry index can be found at: https://biocontext.ai/registry.
-
-## Preprint & Citation
-
-You can find our preprint here: [https://www.biorxiv.org/content/10.1101/2025.07.21.665729v1.full.pdf](https://www.biorxiv.org/content/10.1101/2025.07.21.665729v1.full.pdf).
-
-If our work is useful to your research, please cite it as below.
-
-```bibtex
-@misc{kuehlCommunitybasedBiomedicalContext2025,
-  title = {Community-Based Biomedical Context to Unlock Agentic Systems},
-  author = {Kuehl, Malte and Schaub, Darius P. and Carli, Francesco and Heumos, Lukas and {Fern{\'a}ndez-Zapata}, Camila and Kaiser, Nico and Schaul, Jonathan and Panzer, Ulf and Bonn, Stefan and Lobentanzer, Sebastian and {Saez-Rodriguez}, Julio and Puelles, Victor G.},
-  year = {2025},
-  month = jul,
-  pages = {2025.07.21.665729},
-  publisher = {bioRxiv},
-  issn = {2692-8205},
-  doi = {10.1101/2025.07.21.665729},
-  urldate = {2025-07-28},
-  abstract = {Large language models (LLMs) face reliability challenges stemming from hallucinations and insufficient access to validated scientific resources. Existing solutions are often fragmented and limited to specific applications, hindering broader adoption and interoperability. Here, we present Biomedical Context for Artificial Intelligence (BioContextAI), an open-source initiative centered on Model Context Protocol (MCP) servers to address these limitations. BioContextAI provides a community-oriented registry for discovering domain-specific MCP servers and a proof-of-concept server implementation that integrates widely-used biomedical knowledgebases. By enabling standardized access to validated scientific knowledge, BioContextAI aims to facilitate the development of composable agentic systems for biomedical research. Together, this work contributes to an emerging ecosystem of community-driven approaches for expanding the capabilities and reliability of biomedical AI systems.},
-  archiveprefix = {bioRxiv},
-  copyright = {{\copyright} 2025, Posted by Cold Spring Harbor Laboratory. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/},
-}
-```
 
 ## Implemented Tools
 
@@ -73,62 +50,21 @@ If you use data from these services in your research, please make sure to cite b
 - [STRING](https://string-db.org/) - Protein-protein interaction networks
 - [AlphaFold DB](https://alphafold.ebi.ac.uk/) - Tertiary protein structure predictions
 
-## License overview
-
-The above data is provided without warranty and may be inaccurate or out-of-date. Please verify your use case is allowed.
-
-### OpenAPI MCP servers
+### OpenAPI MCP Servers
 
 `FastMCP` allows for easy conversion of REST endpoints following the OpenAPI specification into MCP servers. We have added code to automatically create such servers based on schemas provided through a configuration file, so that users deploying their own version of BioContextAI can easily extend the list of available tools. The configuration file is located at `src/biocontext_kb/openapi/config.yaml`. By default, no OpenAPI servers are included, but you can edit the configuration file to add services.
 
-## Self-hosting
+## Installation
 
-Clone the latest version of this repository:
+1. **Local setup with Claude Desktop**:
 
-```bash
-git clone https://github.com/biocontext-ai/knowlegebase-mcp.git
-cd knowlegebase-mcp
-```
+Edit your `claude_desktop_config.json` file. To find it, click on your name and then “Settings”. Next, click on “Developer” to see “Local MCP servers” and then click on “Edit Config”.
 
-Then run one of the following:
-
-1. Docker setup (gunicorn with multiple uvicorn workers):
-
-```bash
-# Build the docker container
-docker build -t biocontext_kb:latest .
-docker run -p 127.0.0.1:8000:8000 biocontext_kb:latest
-```
-
-This exposes your MCP server at: http://127.0.0.1:8000/mcp/
-
-> [!WARNING]
-> For public deployments, you should disabled unnecessary ports and access your MCP server through a reverse proxy, e.g., Nginx or Caddy. You may also want to configure the running user and the directory to have limited rights, use Docker or podman in a rootless setup and take additional security measures like DDOS protection with Cloudflare or fail2ban.
-
-2. Local setup with `uv`, with streamable HTTP and uvicorn:
-
-```bash
-uv build
-export MCP_ENVIRONMENT=PRODUCTION
-export PORT=8000
-biocontext_kb
-```
-
-3. Locall setup with `uv`, with stdio transport:
-
-```bash
-uv build
-export MCP_ENVIRONMENT=DEVELOPMENT
-biocontext_kb
-```
-
-4. Locall setup with Claude Desktop (`claude_desktop_config.json`):
-
-```json
+```jsonc
 {
   "mcpServers": {
     "biocontext_kb": {
-      "command": "uvx",
+      "command": "uvx", // On Mac, use "brew install uv"
       "args": [
         "biocontext_kb@latest"
       ],
@@ -140,13 +76,30 @@ biocontext_kb
 }
 ```
 
-**Don't forget to restart Claude to apply the changes.**
+> [!WARNING]
+> Don't forget to restart Claude to apply the changes.
 
-5. Locally, with your coding agents in VS Code (`.vscode/mcp.json`) or Cursor (`.cursor/mcp.json`) or WindSurf (`.codeium/windsurf/mcp_config.json`):
+2. **Local setup with `uv`**
+
+Run the server with streamable HTTP and uvicorn:
+
+```bash
+export MCP_ENVIRONMENT=PRODUCTION && export PORT=8000 && uvx biocontext_kb
+```
+
+Run the server with stdio transport:
+
+```bash
+export MCP_ENVIRONMENT=DEVELOPMENT && uvx biocontext_kb
+```
+
+3. **Local setup with IDEs**
+
+Change the configuration file of your coding agents, e.g., VS Code (`.vscode/mcp.json`), Cursor (`.cursor/mcp.json`), or WindSurf (`.codeium/windsurf/mcp_config.json`):
 
 ```jsonc
 {
-  // VS Code: "servers"
+  // VS Code: Use "servers" instead of "mcpServers"
   "mcpServers": {
     "biocontext_kb": {
       // if it doesn't work, replace with the `which uvx` path (installation via Homebrew recommended on macOS)
@@ -176,13 +129,61 @@ When using Windows and WSL2 the above config needs to be adapted as follows:
 }
 ```
 
-6. Locally, with your own MCP clients:
+4. **Docker**
 
-- Follow the `PydanticAI` [setup guide](https://ai.pydantic.dev/mcp/client/)
-- Follow the `FastMCP` [setup guide](https://gofastmcp.com/getting-started/welcome)
-- Follow the `mcp-use` [setup guide](https://github.com/mcp-use/mcp-use)
+Clone the latest version of this repository:
 
-## Resources
+```bash
+git clone https://github.com/biocontext-ai/knowlegebase-mcp.git
+cd knowlegebase-mcp
+```
+
+Then build the container, running gunicorn with multiple uvicorn workers:
+
+```bash
+# Build the docker container
+docker build -t biocontext_kb:latest .
+docker run -p 127.0.0.1:8000:8000 biocontext_kb:latest
+```
+
+This exposes your MCP server at: http://127.0.0.1:8000/mcp/
+
+> [!WARNING]
+> For public deployments, you should disable unnecessary ports and access your MCP server through a reverse proxy, e.g., Nginx or Caddy. You may also want to configure the running user and the directory to have limited rights, use Docker or podman in a rootless setup and take additional security measures like DDOS protection with Cloudflare or fail2ban.
+
+### MCP Clients
+
+To develop your own agentic systems that make use of the MCP server, you may want to consider some of the following options:
+
+- [PydanticAI](https://ai.pydantic.dev/mcp/client/)
+- [FastMCP](https://gofastmcp.com/getting-started/welcome)
+- [Langchain MCP adapters](https://github.com/langchain-ai/langchain-mcp-adapters)
+- [mcp-use](https://github.com/mcp-use/mcp-use)
+
+## Preprint & Documentation
+
+You can find our preprint here: [https://www.biorxiv.org/content/10.1101/2025.07.21.665729v1.full.pdf](https://www.biorxiv.org/content/10.1101/2025.07.21.665729v1.full.pdf).
+
+If our work is useful to your research, please cite it as below.
+
+```bibtex
+@misc{kuehlCommunitybasedBiomedicalContext2025,
+  title = {Community-Based Biomedical Context to Unlock Agentic Systems},
+  author = {Kuehl, Malte and Schaub, Darius P. and Carli, Francesco and Heumos, Lukas and {Fern{\'a}ndez-Zapata}, Camila and Kaiser, Nico and Schaul, Jonathan and Panzer, Ulf and Bonn, Stefan and Lobentanzer, Sebastian and {Saez-Rodriguez}, Julio and Puelles, Victor G.},
+  year = {2025},
+  month = jul,
+  pages = {2025.07.21.665729},
+  publisher = {bioRxiv},
+  issn = {2692-8205},
+  doi = {10.1101/2025.07.21.665729},
+  urldate = {2025-07-28},
+  abstract = {Large language models (LLMs) face reliability challenges stemming from hallucinations and insufficient access to validated scientific resources. Existing solutions are often fragmented and limited to specific applications, hindering broader adoption and interoperability. Here, we present Biomedical Context for Artificial Intelligence (BioContextAI), an open-source initiative centered on Model Context Protocol (MCP) servers to address these limitations. BioContextAI provides a community-oriented registry for discovering domain-specific MCP servers and a proof-of-concept server implementation that integrates widely-used biomedical knowledgebases. By enabling standardized access to validated scientific knowledge, BioContextAI aims to facilitate the development of composable agentic systems for biomedical research. Together, this work contributes to an emerging ecosystem of community-driven approaches for expanding the capabilities and reliability of biomedical AI systems.},
+  archiveprefix = {bioRxiv},
+  copyright = {{\copyright} 2025, Posted by Cold Spring Harbor Laboratory. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/},
+}
+```
+
+### Further Resources
 
 - Project documentation: https://biocontext.ai
 - API documentationt: https://docs.kb.biocontext.ai/
