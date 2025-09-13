@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/biocontext-ai-knowledgebase-mcp-badge.png)](https://mseep.ai/app/biocontext-ai-knowledgebase-mcp)
+
 # BioContextAI - Knowledgebase MCP
 
 [![BioContextAI - Registry](https://img.shields.io/badge/Registry-package?style=flat&label=BioContextAI&labelColor=%23fff&color=%233555a1&link=https%3A%2F%2Fbiocontext.ai%2Fregistry)](https://biocontext.ai/registry)
