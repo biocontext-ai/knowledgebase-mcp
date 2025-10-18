@@ -1,6 +1,6 @@
 # BioContextAI - Knowledgebase MCP
 
-[![BioContextAI - Registry](https://img.shields.io/badge/Registry-package?style=flat&label=BioContextAI&labelColor=%23fff&color=%233555a1&link=https%3A%2F%2Fbiocontext.ai%2Fregistry)](https://biocontext.ai/registry)
+[![BioContextAI - Registry](https://img.shields.io/badge/Registry-package?style=flat&label=BioContextAI&labelColor=%23fff&color=%233555a1&link=https%3A%2F%2Fbiocontext.ai%2Fregistry)]([https://biocontext.ai/registry](https://biocontext.ai/registry/biocontext-ai/knowledgebase-mcp))
 [![Version](https://img.shields.io/pypi/v/biocontext_kb)](https://pypi.org/project/biocontext_kb/)
 [![License](https://img.shields.io/pypi/l/biocontext_kb)](https://github.com/biocontext-ai/knowledgebase-mcp)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
