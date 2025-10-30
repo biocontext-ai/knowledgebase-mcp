@@ -18,13 +18,14 @@ def get_available_ontologies() -> Dict[str, Any]:
     """
     url = "https://www.ebi.ac.uk/ols4/api/v2/ontologies"
 
-    params = {
-        "size": "300",  # Get a large number of ontologies (as of mid-2025, there are 268)
-        "page": "0",
-        "lang": "en",
-    }
-
     try:
+        # First request to get total count
+        params = {
+            "size": "100",  # OLS now limits to 100 elements per page
+            "page": "0",
+            "lang": "en",
+        }
+
         response = requests.get(url, params=params)
         response.raise_for_status()
 
@@ -33,35 +34,48 @@ def get_available_ontologies() -> Dict[str, Any]:
         if not data.get("elements"):
             return {"error": "No ontologies found"}
 
-        # Extract ontology information
-        ontologies = [
-            {
-                "id": element.get("ontologyId", ""),
-                "name": element.get("label", ""),
-                "description": element.get("definition", ""),
-                "prefix": element.get("ontologyPrefix", ""),
-                "base_uri": element.get("baseUri", ""),
-                "homepage": element.get("homepage", ""),
-                "mailing_list": element.get("mailingList", ""),
-                "number_of_terms": element.get("numberOfTerms", 0),
-                "number_of_properties": element.get("numberOfProperties", 0),
-                "number_of_individuals": element.get("numberOfIndividuals", 0),
-                "last_loaded": element.get("lastLoaded", ""),
-                "status": element.get("status", ""),
-            }
-            for element in data["elements"]
-        ]
+        ontologies: list[Dict[str, Any]] = []
+        total_elements = data.get("totalElements", 0)
+        total_pages = (total_elements + 99) // 100  # Ceiling division
+
+        # Iterate through all pages
+        for page in range(total_pages):
+            params["page"] = str(page)
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            data = response.json()
+
+            # Extract ontology information
+            page_ontologies = [
+                {
+                    "id": element.get("ontologyId", ""),
+                    "name": element.get("label", ""),
+                    "description": element.get("definition", ""),
+                    "prefix": element.get("ontologyPrefix", ""),
+                    "base_uri": element.get("baseUri", ""),
+                    "homepage": element.get("homepage", ""),
+                    "mailing_list": element.get("mailingList", ""),
+                    "number_of_terms": element.get("numberOfTerms", 0),
+                    "number_of_properties": element.get("numberOfProperties", 0),
+                    "number_of_individuals": element.get("numberOfIndividuals", 0),
+                    "last_loaded": element.get("lastLoaded", ""),
+                    "status": element.get("status", ""),
+                }
+                for element in data.get("elements", [])
+            ]
+
+            ontologies.extend(page_ontologies)
 
         # Sort by ontology ID for consistency
         ontologies.sort(key=lambda x: x["id"])
 
         return {
             "ontologies": ontologies,
-            "total_ontologies": data.get("totalElements", len(ontologies)),
+            "total_ontologies": total_elements,
             "page_info": {
-                "page": data.get("page", 0),
-                "total_pages": data.get("totalPages", 1),
-                "num_elements": data.get("numElements", len(ontologies)),
+                "total_pages": total_pages,
+                "num_elements": len(ontologies),
             },
         }
 

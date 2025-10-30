@@ -18,7 +18,7 @@ classifiers = [
 dependencies = [
     "asyncio>=3.4.3,<4",
     "dotenv>=0.9.9,<1",
-    "fastmcp==2.12.4",
+    "fastmcp==2.13.0.2",
     "gql>=3.5.3,<4",
     "gunicorn>=23.0.0,<24",
     "httpx>=0.28.1",
