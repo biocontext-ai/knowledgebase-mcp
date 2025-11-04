@@ -205,7 +205,7 @@ async def test_get_recent_biorxiv_preprints_zero_max_results():
             raise AssertionError("Expected ToolError for max_results=0")
         except Exception as e:
             # Should get a validation error about minimum value
-            assert "minimum of 1" in str(e)
+            assert "greater than or equal to 1" in str(e)
 
 
 async def test_get_recent_biorxiv_preprints_negative_days():
@@ -217,7 +217,7 @@ async def test_get_recent_biorxiv_preprints_negative_days():
             raise AssertionError("Expected ToolError for negative days")
         except Exception as e:
             # Should get a validation error about minimum value
-            assert "minimum of 1" in str(e)
+            assert "greater than or equal to 1" in str(e)
 
 
 async def test_get_biorxiv_preprint_details_malformed_doi():
@@ -242,5 +242,5 @@ async def test_get_biorxiv_preprint_details_missing_doi():
             # If we get here, the test should fail
             raise AssertionError("Expected ToolError for missing DOI")
         except Exception as e:
-            # Should get a validation error about required property
-            assert "required property" in str(e)
+            # Should get a validation error about required argument
+            assert "Missing required argument" in str(e)
