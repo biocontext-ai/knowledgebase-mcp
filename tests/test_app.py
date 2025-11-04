@@ -92,7 +92,7 @@ async def test_setup_production_environment(mock_mcp_app, monkeypatch):
     assert mock_mcp_app.import_server.call_count == 2
 
     # Verify the Starlette app was created with the correct settings
-    mock_mcp_app.http_app.assert_called_once_with(path="/mcp", stateless_http=True)
+    mock_mcp_app.http_app.assert_called_once_with(path="/mcp/", stateless_http=True)
 
 
 def test_app_initialization():
