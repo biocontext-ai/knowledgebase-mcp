@@ -1,0 +1,97 @@
+cff-version: 1.2.0
+title: BioContextAI is a community hub for agentic biomedical systems
+issn: 2587-8638
+journal: Nature Biotechnology
+url: https://doi.org/10.1038/s41587-025-02900-9
+authors:
+  - family-names: Kuehl
+    given-names: Malte
+  - family-names: Schaub
+    given-names: Darius P.
+  - family-names: Carli
+    given-names: Francesco
+  - family-names: Heumos
+    given-names: Lukas
+  - family-names: Hellmig
+    given-names: Malte
+  - family-names: Fernández-Zapata
+    given-names: Camila
+  - family-names: Kaiser
+    given-names: Nico
+  - family-names: Schaul
+    given-names: Jonathan
+  - family-names: Kulaga
+    given-names: Anton
+  - family-names: Usanov
+    given-names: Nikolay
+  - family-names: Koutrouli
+    given-names: Mikaela
+  - family-names: Ergen
+    given-names: Can
+  - family-names: Palla
+    given-names: Giovanni
+  - family-names: Krebs
+    given-names: Christian F.
+  - family-names: Panzer
+    given-names: Ulf
+  - family-names: Bonn
+    given-names: Stefan
+  - family-names: Lobentanzer
+    given-names: Sebastian
+  - family-names: Saez-Rodriguez
+    given-names: Julio
+  - family-names: Puelles
+    given-names: Victor G.
+date-published: 2025-11-01
+identifiers:
+  - type: doi
+    value: 10.1038/s41587-025-02900-9
+preferred-citation:
+  title: BioContextAI is a community hub for agentic biomedical systems
+  type: article
+  issn: 2587-8638
+  journal: Nature Biotechnology
+  url: https://doi.org/10.1038/s41587-025-02900-9
+  authors:
+    - family-names: Kuehl
+      given-names: Malte
+    - family-names: Schaub
+      given-names: Darius P.
+    - family-names: Carli
+      given-names: Francesco
+    - family-names: Heumos
+      given-names: Lukas
+    - family-names: Hellmig
+      given-names: Malte
+    - family-names: Fernández-Zapata
+      given-names: Camila
+    - family-names: Kaiser
+      given-names: Nico
+    - family-names: Schaul
+      given-names: Jonathan
+    - family-names: Kulaga
+      given-names: Anton
+    - family-names: Usanov
+      given-names: Nikolay
+    - family-names: Koutrouli
+      given-names: Mikaela
+    - family-names: Ergen
+      given-names: Can
+    - family-names: Palla
+      given-names: Giovanni
+    - family-names: Krebs
+      given-names: Christian F.
+    - family-names: Panzer
+      given-names: Ulf
+    - family-names: Bonn
+      given-names: Stefan
+    - family-names: Lobentanzer
+      given-names: Sebastian
+    - family-names: Saez-Rodriguez
+      given-names: Julio
+    - family-names: Puelles
+      given-names: Victor G.
+  date-published: 2025-11-01
+  identifiers:
+    - type: doi
+      value: 10.1038/s41587-025-02900-9

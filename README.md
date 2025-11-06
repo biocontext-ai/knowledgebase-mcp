@@ -162,24 +162,24 @@ To develop your own agentic systems that make use of the MCP server, you may wan
 
 ## Preprint & Documentation
 
-You can find our preprint here: [https://www.biorxiv.org/content/10.1101/2025.07.21.665729v1.full.pdf](https://www.biorxiv.org/content/10.1101/2025.07.21.665729v1.full.pdf).
+You can find our Nature Biotechnology correspondence here: [https://www.nature.com/articles/s41587-025-02900-9](https://www.nature.com/articles/s41587-025-02900-9).
 
 If our work is useful to your research, please cite it as below.
 
 ```bibtex
-@misc{kuehlCommunitybasedBiomedicalContext2025,
-  title = {Community-Based Biomedical Context to Unlock Agentic Systems},
-  author = {Kuehl, Malte and Schaub, Darius P. and Carli, Francesco and Heumos, Lukas and {Fern{\'a}ndez-Zapata}, Camila and Kaiser, Nico and Schaul, Jonathan and Panzer, Ulf and Bonn, Stefan and Lobentanzer, Sebastian and {Saez-Rodriguez}, Julio and Puelles, Victor G.},
+@article{BioContext_AI_Kuehl_Schaub_2025,
+  title={BioContextAI is a community hub for agentic biomedical systems},
+  url={http://dx.doi.org/10.1038/s41587-025-02900-9},
+  urldate = {2025-11-06},
+  doi={10.1038/s41587-025-02900-9},
   year = {2025},
-  month = jul,
-  pages = {2025.07.21.665729},
-  publisher = {bioRxiv},
-  issn = {2692-8205},
-  doi = {10.1101/2025.07.21.665729},
-  urldate = {2025-07-28},
-  abstract = {Large language models (LLMs) face reliability challenges stemming from hallucinations and insufficient access to validated scientific resources. Existing solutions are often fragmented and limited to specific applications, hindering broader adoption and interoperability. Here, we present Biomedical Context for Artificial Intelligence (BioContextAI), an open-source initiative centered on Model Context Protocol (MCP) servers to address these limitations. BioContextAI provides a community-oriented registry for discovering domain-specific MCP servers and a proof-of-concept server implementation that integrates widely-used biomedical knowledgebases. By enabling standardized access to validated scientific knowledge, BioContextAI aims to facilitate the development of composable agentic systems for biomedical research. Together, this work contributes to an emerging ecosystem of community-driven approaches for expanding the capabilities and reliability of biomedical AI systems.},
-  archiveprefix = {bioRxiv},
-  copyright = {{\copyright} 2025, Posted by Cold Spring Harbor Laboratory. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/},
+  month = nov,
+  journal={Nature Biotechnology},
+  publisher={Springer Science and Business Media LLC},
+  author={Kuehl, Malte and Schaub, Darius P. and Carli, Francesco and Heumos, Lukas and Hellmig, Malte and Fernández-Zapata, Camila and Kaiser, Nico and Schaul, Jonathan and Kulaga, Anton and Usanov, Nikolay and Koutrouli, Mikaela and Ergen, Can and Palla, Giovanni and Krebs, Christian F. and Panzer, Ulf and Bonn, Stefan and Lobentanzer, Sebastian and Saez-Rodriguez, Julio and Puelles, Victor G.},
+  year={2025},
+  month=nov,
+  language={en},
 }
 ```
 
