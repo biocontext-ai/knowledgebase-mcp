@@ -160,7 +160,7 @@ To develop your own agentic systems that make use of the MCP server, you may wan
 - [Langchain MCP adapters](https://github.com/langchain-ai/langchain-mcp-adapters)
 - [mcp-use](https://github.com/mcp-use/mcp-use)
 
-## Preprint & Documentation
+## Publication & Documentation
 
 You can find our Nature Biotechnology correspondence here: [https://www.nature.com/articles/s41587-025-02900-9](https://www.nature.com/articles/s41587-025-02900-9).
 
