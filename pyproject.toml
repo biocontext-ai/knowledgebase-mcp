@@ -1,6 +1,6 @@
 [project]
 name = "biocontext_kb"
-version = "0.1.6"
+version = "0.1.7"
 description = "A knowledgebase MCP server for biomedical research, part of the BioContextAI project."
 readme = "README.md"
 requires-python = ">=3.12"
