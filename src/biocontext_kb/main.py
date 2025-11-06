@@ -16,16 +16,14 @@ def run_app():
     """
     logger = logging.getLogger(__name__)
 
-    from biocontext_kb.app import MCPPathRewriteMiddleware, app
+    from biocontext_kb.app import app
 
     if os.environ.get("MCP_ENVIRONMENT") == "PRODUCTION":
         logger.info("Starting Starlette app with Uvicorn in PRODUCTION mode.")
         uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
-    elif not isinstance(app, MCPPathRewriteMiddleware):
+    else:
         logger.info("Starting MCP server via stdio (non-PRODUCTION mode).")
         app.run(transport="stdio")
-    else:
-        logger.error("MCP server is not properly configured for non-PRODUCTION mode.")
 
 
 if __name__ == "__main__":
