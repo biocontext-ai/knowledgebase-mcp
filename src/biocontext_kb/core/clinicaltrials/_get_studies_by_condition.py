@@ -8,19 +8,13 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_studies_by_condition(
-    condition: Annotated[
-        str, Field(description="Medical condition/disease (e.g., 'cancer', 'diabetes')")
-    ],
+    condition: Annotated[str, Field(description="Medical condition/disease (e.g., 'cancer', 'diabetes')")],
     status: Annotated[
         Optional[str],
         Field(description="'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', or 'ALL'"),
     ] = "ALL",
-    study_type: Annotated[
-        Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'ALL'")
-    ] = "ALL",
-    location_country: Annotated[
-        Optional[str], Field(description="Country filter (e.g., 'United States')")
-    ] = None,
+    study_type: Annotated[Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'ALL'")] = "ALL",
+    location_country: Annotated[Optional[str], Field(description="Country filter (e.g., 'United States')")] = None,
     page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 50,
     sort: Annotated[
         str,

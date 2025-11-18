@@ -12,9 +12,7 @@ def get_studies_by_intervention(
         str,
         Field(description="Drug/therapy name (e.g., 'aspirin', 'pembrolizumab', 'radiation')"),
     ],
-    condition: Annotated[
-        Optional[str], Field(description="Medical condition filter (e.g., 'cancer')")
-    ] = None,
+    condition: Annotated[Optional[str], Field(description="Medical condition filter (e.g., 'cancer')")] = None,
     phase: Annotated[
         Optional[str], Field(description="'PHASE1', 'PHASE2', 'PHASE3', 'PHASE4', or 'EARLY_PHASE1'")
     ] = None,
@@ -23,9 +21,7 @@ def get_studies_by_intervention(
     ] = "ALL",
     intervention_type: Annotated[
         Optional[str],
-        Field(
-            description="'DRUG', 'BIOLOGICAL', 'DEVICE', 'PROCEDURE', 'RADIATION', 'BEHAVIORAL', or 'ALL'"
-        ),
+        Field(description="'DRUG', 'BIOLOGICAL', 'DEVICE', 'PROCEDURE', 'RADIATION', 'BEHAVIORAL', or 'ALL'"),
     ] = "ALL",
     page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 50,
     sort: Annotated[

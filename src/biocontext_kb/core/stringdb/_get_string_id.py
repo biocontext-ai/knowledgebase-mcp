@@ -10,9 +10,7 @@ from biocontext_kb.core._server import core_mcp
 def get_string_id(
     protein_symbol: Annotated[str, Field(description="Protein name or identifier (e.g., 'TP53')")],
     species: Annotated[str, Field(description="Species taxonomy ID (e.g., '9606' for human)")] = "",
-    return_field: Annotated[
-        str, Field(description="Field to return: 'stringId' or 'preferredName'")
-    ] = "stringId",
+    return_field: Annotated[str, Field(description="Field to return: 'stringId' or 'preferredName'")] = "stringId",
     limit: Annotated[int, Field(description="Maximum number of matches to return")] = 1,
 ) -> Union[dict, str]:
     """Map protein identifiers (gene names, synonyms, UniProt IDs) to STRING database IDs. Using STRING IDs improves reliability.

@@ -8,19 +8,11 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_recruiting_studies_by_location(
-    location_country: Annotated[
-        str, Field(description="Country name (e.g., 'United States', 'Germany')")
-    ],
-    location_state: Annotated[
-        Optional[str], Field(description="State/province (e.g., 'California')")
-    ] = None,
+    location_country: Annotated[str, Field(description="Country name (e.g., 'United States', 'Germany')")],
+    location_state: Annotated[Optional[str], Field(description="State/province (e.g., 'California')")] = None,
     location_city: Annotated[Optional[str], Field(description="City name")] = None,
-    condition: Annotated[
-        Optional[str], Field(description="Medical condition filter (e.g., 'cancer')")
-    ] = None,
-    study_type: Annotated[
-        Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'ALL'")
-    ] = "ALL",
+    condition: Annotated[Optional[str], Field(description="Medical condition filter (e.g., 'cancer')")] = None,
+    study_type: Annotated[Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'ALL'")] = "ALL",
     age_range: Annotated[Optional[str], Field(description="'CHILD', 'ADULT', 'OLDER_ADULT', or 'ALL'")] = "ALL",
     page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 50,
 ) -> Union[Dict[str, Any], dict]:

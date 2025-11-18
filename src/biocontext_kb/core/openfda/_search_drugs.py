@@ -9,9 +9,7 @@ from biocontext_kb.core._server import core_mcp
 @core_mcp.tool()
 def search_drugs_fda(
     brand_name: Annotated[Optional[str], Field(description="Brand or trade name (e.g., 'Tylenol')")] = None,
-    generic_name: Annotated[
-        Optional[str], Field(description="Generic name (e.g., 'acetaminophen')")
-    ] = None,
+    generic_name: Annotated[Optional[str], Field(description="Generic name (e.g., 'acetaminophen')")] = None,
     active_ingredient: Annotated[Optional[str], Field(description="Active ingredient name")] = None,
     sponsor_name: Annotated[Optional[str], Field(description="Company/sponsor name")] = None,
     application_number: Annotated[
@@ -29,9 +27,7 @@ def search_drugs_fda(
     route: Annotated[
         Optional[str], Field(description="Route of administration (e.g., 'ORAL', 'INJECTION', 'TOPICAL')")
     ] = None,
-    search_type: Annotated[
-        str, Field(description="'and' for all terms must match, 'or' for any term matches")
-    ] = "or",
+    search_type: Annotated[str, Field(description="'and' for all terms must match, 'or' for any term matches")] = "or",
     sort_by: Annotated[
         Optional[str], Field(description="Field to sort by (e.g., 'sponsor_name', 'application_number')")
     ] = None,

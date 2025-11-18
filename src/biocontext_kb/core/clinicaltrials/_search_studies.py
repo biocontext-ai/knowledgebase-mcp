@@ -9,12 +9,8 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def search_studies(
-    condition: Annotated[
-        Optional[str], Field(description="Medical condition (e.g., 'cancer')")
-    ] = None,
-    intervention: Annotated[
-        Optional[str], Field(description="Drug/therapy name (e.g., 'aspirin')")
-    ] = None,
+    condition: Annotated[Optional[str], Field(description="Medical condition (e.g., 'cancer')")] = None,
+    intervention: Annotated[Optional[str], Field(description="Drug/therapy name (e.g., 'aspirin')")] = None,
     sponsor: Annotated[Optional[str], Field(description="Sponsor org (e.g., 'Pfizer')")] = None,
     status: Annotated[
         Optional[str],
@@ -28,9 +24,7 @@ def search_studies(
     study_type: Annotated[
         Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'EXPANDED_ACCESS'")
     ] = None,
-    location_country: Annotated[
-        Optional[str], Field(description="Country (e.g., 'United States')")
-    ] = None,
+    location_country: Annotated[Optional[str], Field(description="Country (e.g., 'United States')")] = None,
     min_age: Annotated[Optional[int], Field(description="Min participant age (years)", ge=0)] = None,
     max_age: Annotated[Optional[int], Field(description="Max participant age (years)", ge=0)] = None,
     sex: Annotated[Optional[str], Field(description="'ALL', 'FEMALE', or 'MALE'")] = None,

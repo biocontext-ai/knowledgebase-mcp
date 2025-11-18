@@ -10,9 +10,7 @@ from biocontext_kb.core.stringdb._get_string_id import get_string_id
 @core_mcp.tool()
 def get_string_similarity_scores(
     protein_symbol: Annotated[str, Field(description="First protein symbol (e.g., 'TP53')")],
-    protein_symbol_comparison: Annotated[
-        str, Field(description="Second protein symbol (e.g., 'MKI67')")
-    ],
+    protein_symbol_comparison: Annotated[str, Field(description="Second protein symbol (e.g., 'MKI67')")],
     species: Annotated[str, Field(description="Species taxonomy ID (e.g., '9606' for human)")] = "",
 ) -> Union[List[Dict[str, Any]], dict]:
     """Retrieve protein homology similarity scores from STRING database based on Smith-Waterman bit scores. Only scores above 50 reported.

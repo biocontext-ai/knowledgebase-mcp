@@ -8,9 +8,7 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_antibody_list(
-    search: Annotated[
-        str, Field(description="Gene symbol, protein name, or UniProt ID (e.g., 'TRPC6')")
-    ],
+    search: Annotated[str, Field(description="Gene symbol, protein name, or UniProt ID (e.g., 'TRPC6')")],
 ) -> dict:
     """Search Antibody Registry for antibodies. Returns catalog numbers, vendors, clonality, applications, and metadata.
 

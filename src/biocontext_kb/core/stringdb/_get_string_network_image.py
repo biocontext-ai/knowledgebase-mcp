@@ -14,7 +14,9 @@ from biocontext_kb.core.stringdb._get_string_id import get_string_id
 def get_string_network_image(
     protein_symbol: Annotated[str, Field(description="Protein name to search for (e.g., 'TP53')")],
     species: Annotated[str, Field(description="Species taxonomy ID (e.g., '10090' for mouse)")],
-    flavor: Annotated[str, Field(description="Network flavor (e.g., 'confidence', 'evidence', 'actions')")] = "confidence",
+    flavor: Annotated[
+        str, Field(description="Network flavor (e.g., 'confidence', 'evidence', 'actions')")
+    ] = "confidence",
     min_score: Annotated[int, Field(description="Minimum combined score threshold (0-1000)", ge=0, le=1000)] = 700,
 ) -> Image | dict:
     """Generate protein-protein interaction network image from STRING database. Always provide species parameter.

@@ -8,9 +8,7 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_term_details(
-    term_id: Annotated[
-        str, Field(description="Term ID in CURIE format (e.g., 'EFO:0000001', 'GO:0008150')")
-    ],
+    term_id: Annotated[str, Field(description="Term ID in CURIE format (e.g., 'EFO:0000001', 'GO:0008150')")],
     ontology_id: Annotated[
         str, Field(description="Ontology ID where the term is defined (e.g., 'efo', 'go', 'chebi')")
     ],

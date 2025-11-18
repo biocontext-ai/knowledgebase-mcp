@@ -8,9 +8,7 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_efo_id_by_disease_name(
-    disease_name: Annotated[
-        str, Field(description="Disease name to search for (e.g., 'choledocholithiasis')")
-    ],
+    disease_name: Annotated[str, Field(description="Disease name to search for (e.g., 'choledocholithiasis')")],
     size: Annotated[
         int,
         Field(description="Maximum number of results to return"),

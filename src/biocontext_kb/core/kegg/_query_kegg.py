@@ -222,9 +222,7 @@ class KeggConfig(BaseModel):
 
 @core_mcp.tool()
 def query_kegg(
-    operation: Annotated[
-        KeggOperation, Field(description="info, list, find, get, conv, link, or ddi")
-    ],
+    operation: Annotated[KeggOperation, Field(description="info, list, find, get, conv, link, or ddi")],
     database: Annotated[
         Optional[Union[KeggDatabase, KeggOutsideDb, str]],
         Field(description="pathway, compound, genes, organism code (hsa, mmu, etc.), or other DB"),
@@ -237,9 +235,7 @@ def query_kegg(
         Optional[Union[KeggDatabase, KeggOutsideDb, str]],
         Field(description="Source DB for conversion/linking operations"),
     ] = None,
-    query: Annotated[
-        Optional[str], Field(description="Query string for FIND/LIST, or organism code for LIST")
-    ] = None,
+    query: Annotated[Optional[str], Field(description="Query string for FIND/LIST, or organism code for LIST")] = None,
     option: Annotated[
         Optional[Union[KeggOption, KeggFindOption, KeggRdfFormat]],
         Field(description="aaseq, ntseq, mol, formula, exact_mass, mol_weight, etc."),

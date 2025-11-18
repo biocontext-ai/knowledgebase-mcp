@@ -8,12 +8,8 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_term_hierarchical_children(
-    term_id: Annotated[
-        str, Field(description="Term ID in CURIE format (e.g., 'EFO:0000001', 'GO:0008150')")
-    ],
-    ontology_id: Annotated[
-        str, Field(description="Ontology ID (e.g., 'efo', 'go', 'chebi')")
-    ],
+    term_id: Annotated[str, Field(description="Term ID in CURIE format (e.g., 'EFO:0000001', 'GO:0008150')")],
+    ontology_id: Annotated[str, Field(description="Ontology ID (e.g., 'efo', 'go', 'chebi')")],
     size: Annotated[
         int,
         Field(description="Maximum number of children to return"),

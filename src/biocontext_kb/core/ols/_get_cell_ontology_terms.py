@@ -8,9 +8,7 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_cell_ontology_terms(
-    cell_type: Annotated[
-        str, Field(description="Cell type to search for (e.g., 'T cell', 'neuron')")
-    ],
+    cell_type: Annotated[str, Field(description="Cell type to search for (e.g., 'T cell', 'neuron')")],
     size: Annotated[
         int,
         Field(description="Maximum number of results to return"),

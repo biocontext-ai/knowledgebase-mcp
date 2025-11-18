@@ -9,9 +9,7 @@ from biocontext_kb.core.kegg._execute_kegg_query import execute_kegg_query
 
 @core_mcp.tool()
 def get_kegg_id_by_gene_symbol(
-    gene_symbol: Annotated[
-        str, Field(description="Gene symbol (e.g., 'TP53' for human, 'Trp53' for mouse)")
-    ],
+    gene_symbol: Annotated[str, Field(description="Gene symbol (e.g., 'TP53' for human, 'Trp53' for mouse)")],
     organism_code: Annotated[
         str, Field(description="Taxonomy ID: 9606 (human), 10090 (mouse), 10116 (rat), 562 (E. coli), 4932 (yeast)")
     ],

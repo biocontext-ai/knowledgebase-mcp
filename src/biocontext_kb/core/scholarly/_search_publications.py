@@ -13,9 +13,7 @@ logger = logging.getLogger(__name__)
 def search_google_scholar_publications(
     query: Annotated[
         str,
-        Field(
-            description="Search query (e.g., 'machine learning' or 'author:\"John Smith\" deep learning')"
-        ),
+        Field(description="Search query (e.g., 'machine learning' or 'author:\"John Smith\" deep learning')"),
     ],
     max_results: Annotated[int, Field(description="Maximum number of publications to return (1-50)", ge=1, le=50)] = 10,
     use_proxy: Annotated[bool, Field(description="Use free proxies to avoid rate limiting")] = True,
