@@ -10,45 +10,33 @@ from biocontext_kb.core._server import core_mcp
 def get_studies_by_intervention(
     intervention: Annotated[
         str,
-        Field(description="Drug, therapy, or treatment name (e.g., 'aspirin', 'pembrolizumab', 'radiation therapy')"),
+        Field(description="Drug/therapy name (e.g., 'aspirin', 'pembrolizumab', 'radiation')"),
     ],
     condition: Annotated[
-        Optional[str], Field(description="Medical condition to filter by (e.g., 'cancer', 'diabetes')")
+        Optional[str], Field(description="Medical condition filter (e.g., 'cancer')")
     ] = None,
     phase: Annotated[
-        Optional[str], Field(description="Clinical trial phase: 'PHASE1', 'PHASE2', 'PHASE3', 'PHASE4', 'EARLY_PHASE1'")
+        Optional[str], Field(description="'PHASE1', 'PHASE2', 'PHASE3', 'PHASE4', or 'EARLY_PHASE1'")
     ] = None,
     status: Annotated[
-        Optional[str], Field(description="Study status: 'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', 'ALL'")
+        Optional[str], Field(description="'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', or 'ALL'")
     ] = "ALL",
     intervention_type: Annotated[
         Optional[str],
         Field(
-            description="Type of intervention: 'DRUG', 'BIOLOGICAL', 'DEVICE', 'PROCEDURE', 'RADIATION', 'BEHAVIORAL', 'ALL'"
+            description="'DRUG', 'BIOLOGICAL', 'DEVICE', 'PROCEDURE', 'RADIATION', 'BEHAVIORAL', or 'ALL'"
         ),
     ] = "ALL",
-    page_size: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 50,
+    page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 50,
     sort: Annotated[
         str,
-        Field(description="Sort order: 'LastUpdatePostDate:desc', 'StudyFirstPostDate:desc', 'EnrollmentCount:desc'"),
+        Field(description="'LastUpdatePostDate:desc', 'StudyFirstPostDate:desc', or 'EnrollmentCount:desc'"),
     ] = "LastUpdatePostDate:desc",
 ) -> Union[Dict[str, Any], dict]:
-    """Search for clinical trials by drug or intervention name.
-
-    This function helps biomedical researchers find clinical trials testing specific
-    drugs, therapies, or treatments, with optional filters for condition and phase.
-
-    Args:
-        intervention (str): Drug, therapy, or treatment name to search for.
-        condition (str, optional): Medical condition to filter by.
-        phase (str, optional): Clinical trial phase to filter by.
-        status (str, optional): Study status filter (default: "ALL").
-        intervention_type (str, optional): Type of intervention filter (default: "ALL").
-        page_size (int): Number of results to return (default: 50, max: 1000).
-        sort (str): Sort order for results (default: most recently updated).
+    """Search trials by intervention with condition and phase filters. Returns paginated results with breakdowns.
 
     Returns:
-        dict: Study search results with summary statistics or error message
+        dict: Studies list with summary containing intervention searched, total studies, status/phase breakdowns, top conditions/sponsors or error message.
     """
     if not intervention:
         return {"error": "Intervention name must be provided"}

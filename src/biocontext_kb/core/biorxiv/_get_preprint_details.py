@@ -11,20 +11,13 @@ logger = logging.getLogger(__name__)
 
 @core_mcp.tool()
 def get_biorxiv_preprint_details(
-    doi: Annotated[str, Field(description="DOI of the preprint (e.g., '10.1101/2020.09.09.20191205')")],
-    server: Annotated[str, Field(description="Server to search: 'biorxiv' or 'medrxiv'")] = "biorxiv",
+    doi: Annotated[str, Field(description="Preprint DOI (e.g., '10.1101/2020.09.09.20191205')")],
+    server: Annotated[str, Field(description="'biorxiv' or 'medrxiv'")] = "biorxiv",
 ) -> Dict[str, Any]:
-    """Get detailed information about a specific preprint by DOI.
-
-    This tool retrieves detailed metadata for a single preprint from bioRxiv or medRxiv
-    using its DOI identifier.
-
-    Args:
-        doi (str): DOI of the preprint (e.g., '10.1101/2020.09.09.20191205').
-        server (str): Server to search - 'biorxiv' or 'medrxiv' (default: 'biorxiv').
+    """Get detailed preprint metadata by DOI. Retrieves title, authors, abstract, date, version, category, license, and publication status.
 
     Returns:
-        dict: Detailed preprint information or error message
+        dict: Preprint metadata including doi, title, authors, abstract, date, version, category, license, publication status or error message.
     """
     # Validate server
     if server.lower() not in ["biorxiv", "medrxiv"]:

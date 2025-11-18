@@ -6,7 +6,11 @@ from biocontext_kb.utils import fetch_graphql_schema
 
 @core_mcp.tool()
 def get_open_targets_graphql_schema() -> dict:
-    """Fetch the Open Targets GraphQL schema."""
+    """Retrieve the Open Targets GraphQL schema for query construction.
+
+    Returns:
+        dict: Schema string in format {'schema': '...'} containing GraphQL type definitions or error message.
+    """
     base_url = "https://api.platform.opentargets.org/api/v4/graphql"
     try:
         schema = fetch_graphql_schema(base_url)

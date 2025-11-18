@@ -9,25 +9,16 @@ from biocontext_kb.core.stringdb._get_string_id import get_string_id
 
 @core_mcp.tool()
 def get_string_similarity_scores(
-    protein_symbol: Annotated[str, Field(description="The protein symbol of the first protein (e.g., 'TP53')")],
+    protein_symbol: Annotated[str, Field(description="First protein symbol (e.g., 'TP53')")],
     protein_symbol_comparison: Annotated[
-        str, Field(description="The protein symbol of the second protein (e.g., 'MKI67')")
+        str, Field(description="Second protein symbol (e.g., 'MKI67')")
     ],
-    species: Annotated[str, Field(description="The species taxonomy ID (e.g., '9606' for human)")] = "",
+    species: Annotated[str, Field(description="Species taxonomy ID (e.g., '9606' for human)")] = "",
 ) -> Union[List[Dict[str, Any]], dict]:
-    """Get similarity scores between proteins from the STRING database.
-
-    The scores represent protein homology based on Smith-Waterman bit scores.
-    Only scores above 50 are reported, and only half of the similarity matrix
-    (since it's symmetric) plus self-hits are returned.
-
-    Args:
-        protein_symbol (str): The protein symbol of the first protein (e.g., "TP53").
-        protein_symbol_comparison (str): The protein symbol of the second protein (e.g., "MKI67").
-        species (str): The species taxonomy ID (e.g., "9606" for human). Optional.
+    """Retrieve protein homology similarity scores from STRING database based on Smith-Waterman bit scores. Only scores above 50 reported.
 
     Returns:
-        list: A list of dictionaries containing protein pairs and their bit scores.
+        list or dict: Similarity scores array with stringId_A, stringId_B, bitscore or error message.
     """
     # Resolve both protein symbols to STRING IDs
     try:

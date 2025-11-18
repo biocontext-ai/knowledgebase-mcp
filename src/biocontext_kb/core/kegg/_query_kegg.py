@@ -223,93 +223,35 @@ class KeggConfig(BaseModel):
 @core_mcp.tool()
 def query_kegg(
     operation: Annotated[
-        KeggOperation, Field(description="The KEGG API operation to perform (info, list, find, get, conv, link, ddi)")
+        KeggOperation, Field(description="info, list, find, get, conv, link, or ddi")
     ],
     database: Annotated[
         Optional[Union[KeggDatabase, KeggOutsideDb, str]],
-        Field(description="The KEGG database to query (e.g., pathway, genes, compound) or organism code (e.g., hsa)"),
+        Field(description="pathway, compound, genes, organism code (hsa, mmu, etc.), or other DB"),
     ] = None,
     target_db: Annotated[
         Optional[Union[KeggDatabase, KeggOutsideDb, str]],
-        Field(description="Target database for conversion or linking operations"),
+        Field(description="Target DB for conversion/linking operations"),
     ] = None,
     source_db: Annotated[
         Optional[Union[KeggDatabase, KeggOutsideDb, str]],
-        Field(description="Source database for conversion or linking operations"),
+        Field(description="Source DB for conversion/linking operations"),
     ] = None,
     query: Annotated[
-        Optional[str], Field(description="Query string for operations like FIND, or organism code for LIST")
+        Optional[str], Field(description="Query string for FIND/LIST, or organism code for LIST")
     ] = None,
     option: Annotated[
         Optional[Union[KeggOption, KeggFindOption, KeggRdfFormat]],
-        Field(description="Additional options like sequence formats, chemical formula search, etc."),
+        Field(description="aaseq, ntseq, mol, formula, exact_mass, mol_weight, etc."),
     ] = None,
     entries: Annotated[
-        Optional[List[str]], Field(description="List of KEGG entry IDs (e.g., ['hsa:7157', 'hsa:00010'])")
+        Optional[List[str]], Field(description="KEGG entry IDs (e.g., ['hsa:7157', 'hsa00010'])")
     ] = None,
 ) -> str | dict:
-    """Execute a KEGG API query.
-
-    This function provides access to the KEGG API, allowing you to query biological data across
-    pathways, genes, compounds, diseases, and more. The function can perform all KEGG API operations
-    and accepts various parameters depending on the operation.
-
-    When searching for genes in KEGG, you typically need KEGG IDs rather than gene symbols.
-    Use the get_kegg_id_by_gene_symbol function first to convert gene symbols to KEGG IDs.
-
-    Common operations:
-    - info: Get database metadata (e.g., operation=info, database=PATHWAY)
-    - list: List entries in a database (e.g., operation=list, database=PATHWAY, query="hsa")
-    - get: Retrieve specific entries (e.g., operation=get, entries=["hsa:7157"])
-    - find: Search for entries by keyword (e.g., operation=find, database=COMPOUND, query="glucose")
-    - link: Find related entries (e.g., operation=link, target_db=PATHWAY, entries=["hsa:7157"])
-    - conv: Convert between identifiers (e.g., operation=conv, target_db=NCBI_GENEID, entries=["hsa:7157"])
-
-    Args:
-        operation (KeggOperation): The KEGG operation to perform.
-        database (KeggDatabase | KeggOutsideDb | str, optional): The database to query.
-        target_db (KeggDatabase | KeggOutsideDb | str, optional): The target database for conversion.
-        source_db (KeggDatabase | KeggOutsideDb | str, optional): The source database for conversion.
-        query (str, optional): The query string for FIND or LIST operations.
-        option (KeggOption | KeggFindOption | KeggRdfFormat, optional): Additional options for the operation.
-        entries (List[str], optional): List of entries for GET or LINK operations.
+    """Execute flexible KEGG API queries across pathways, genes, compounds, diseases, drugs. Use get_kegg_id_by_gene_symbol() first.
 
     Returns:
-        str | dict: The result of the KEGG query or an error message.
-
-    Examples:
-        # List human pathways
-        >>> query_kegg(operation=KeggOperation.LIST, database=KeggDatabase.PATHWAY, query="hsa")
-
-        # Get data for the glycolysis pathway
-        >>> query_kegg(operation=KeggOperation.GET, entries=["hsa00010"])
-
-        # Get data for the TP53 gene
-        >>> query_kegg(operation=KeggOperation.GET, entries=["hsa:7157"])
-
-        # Get amino acid sequence for TP53
-        >>> query_kegg(operation=KeggOperation.GET, entries=["hsa:7157"], option=KeggOption.AASEQ)
-
-        # Find compounds with formula C7H10O5
-        >>> query_kegg(operation=KeggOperation.FIND, database=KeggDatabase.COMPOUND, query="C7H10O5", option="formula")
-
-        # Find pathways related to TP53
-        >>> query_kegg(operation=KeggOperation.LINK, target_db=KeggDatabase.PATHWAY, entries=["hsa:7157"])
-
-        # Convert KEGG ID to NCBI Gene ID
-        >>> query_kegg(operation=KeggOperation.CONV, target_db="ncbi-geneid", source_db="hsa:7157")
-
-        # Get information about a specific pathway
-        >>> query_kegg(operation=KeggOperation.GET, entries=["hsa00010"])
-
-        # Get the compound ID for caffeine
-        >>> query_kegg(operation=KeggOperation.FIND, database=KeggDatabase.COMPOUND, query="caffeine")
-
-        # Get the drug ID for acetaminophen
-        >>> query_kegg(operation=KeggOperation.FIND, database=KeggDatabase.DRUG, query="acetaminophen")
-
-        # Check if two drugs interact (ibuprofen and aspirin)
-        >>> query_kegg(operation=KeggOperation.DDI, entries=["dr:D00126", "dr:D00109"])
+        str or dict: Raw text response from KEGG API with requested data (pathways, genes, compounds, etc.) or error dict.
     """
     config = KeggConfig(
         operation=operation,

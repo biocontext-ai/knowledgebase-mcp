@@ -8,23 +8,15 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_study_details(
-    nct_id: Annotated[str, Field(description="NCT ID of the clinical trial (e.g., 'NCT01234567')")],
+    nct_id: Annotated[str, Field(description="NCT ID (e.g., 'NCT01234567')")],
     fields: Annotated[
-        str, Field(description="Comma-separated list of fields to return or 'all' for complete study data")
+        str, Field(description="Comma-separated fields or 'all' for complete data. Default includes key modules.")
     ] = "IdentificationModule,StatusModule,SponsorCollaboratorsModule,DescriptionModule,ConditionsModule,DesignModule,ArmsInterventionsModule,OutcomesModule,EligibilityModule,ContactsLocationsModule",
 ) -> Union[Dict[str, Any], dict]:
-    """Get detailed information about a specific clinical trial by its NCT ID.
-
-    This function retrieves comprehensive data about a single clinical trial, including
-    study design, eligibility criteria, outcomes, locations, and contact information.
-
-    Args:
-        nct_id (str): NCT ID of the clinical trial (e.g., "NCT01234567").
-        fields (str): Comma-separated list of fields to return, or "all" for complete data.
-                     Default includes key modules for biomedical researchers.
+    """Get complete trial details by NCT ID. Retrieves study design, eligibility, outcomes, locations, contacts, and metadata.
 
     Returns:
-        dict: Detailed study information or error message
+        dict: Study details with protocol sections including identification, status, sponsors, description, conditions, design, interventions, outcomes, eligibility, locations or error message.
     """
     if not nct_id:
         return {"error": "NCT ID must be provided"}

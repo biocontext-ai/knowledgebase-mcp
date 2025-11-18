@@ -12,18 +12,10 @@ def get_drug_by_application_number(
         str, Field(description="FDA application number (e.g., 'NDA021436', 'ANDA123456', 'BLA761234')")
     ],
 ) -> dict:
-    """Get detailed information about a specific FDA-approved drug by its application number.
-
-    Application numbers follow the format: NDA, ANDA, or BLA followed by 6 digits.
-    - NDA: New Drug Application (brand name drugs)
-    - ANDA: Abbreviated New Drug Application (generic drugs)
-    - BLA: Biologics License Application (biological products)
-
-    Args:
-        application_number (str): The FDA application number.
+    """Get detailed information about an FDA-approved drug by application number. Format: NDA/ANDA/BLA followed by 6 digits.
 
     Returns:
-        dict: Detailed drug information from the FDA Drugs@FDA API.
+        dict: FDA drug results with application details, products, sponsor information or error message.
     """
     # Validate application number format
     if not application_number or len(application_number) < 9:
@@ -46,21 +38,12 @@ def get_drug_by_application_number(
 def get_drug_label_info(
     brand_name: Annotated[Optional[str], Field(description="Brand name of the drug")] = None,
     generic_name: Annotated[Optional[str], Field(description="Generic name of the drug")] = None,
-    ndc: Annotated[Optional[str], Field(description="National Drug Code (NDC) number")] = None,
+    ndc: Annotated[Optional[str], Field(description="National Drug Code (NDC)")] = None,
 ) -> dict:
-    """Get drug labeling information including active ingredients, dosage, and usage instructions.
-
-    This function retrieves comprehensive drug label information from the FDA's drug labeling
-    database, which includes detailed product information, active ingredients, dosage forms,
-    and administration routes.
-
-    Args:
-        brand_name (str, optional): Brand name of the drug.
-        generic_name (str, optional): Generic name of the drug.
-        ndc (str, optional): National Drug Code number.
+    """Get comprehensive drug labeling information from FDA. Includes active ingredients, dosage forms, administration routes.
 
     Returns:
-        dict: Drug labeling information from the FDA API.
+        dict: Drug label results with indications, warnings, dosage, active ingredients or error message.
     """
     if not any([brand_name, generic_name, ndc]):
         return {"error": "At least one of brand_name, generic_name, or ndc must be provided"}

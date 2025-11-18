@@ -8,9 +8,9 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def search_drugs_fda(
-    brand_name: Annotated[Optional[str], Field(description="Brand or trade name of the drug (e.g., 'Tylenol')")] = None,
+    brand_name: Annotated[Optional[str], Field(description="Brand or trade name (e.g., 'Tylenol')")] = None,
     generic_name: Annotated[
-        Optional[str], Field(description="Generic name of the drug (e.g., 'acetaminophen')")
+        Optional[str], Field(description="Generic name (e.g., 'acetaminophen')")
     ] = None,
     active_ingredient: Annotated[Optional[str], Field(description="Active ingredient name")] = None,
     sponsor_name: Annotated[Optional[str], Field(description="Company/sponsor name")] = None,
@@ -30,35 +30,18 @@ def search_drugs_fda(
         Optional[str], Field(description="Route of administration (e.g., 'ORAL', 'INJECTION', 'TOPICAL')")
     ] = None,
     search_type: Annotated[
-        str, Field(description="Search type: 'and' for all terms must match, 'or' for any term matches")
+        str, Field(description="'and' for all terms must match, 'or' for any term matches")
     ] = "or",
     sort_by: Annotated[
-        Optional[str], Field(description="Sort by field (e.g., 'sponsor_name', 'application_number')")
+        Optional[str], Field(description="Field to sort by (e.g., 'sponsor_name', 'application_number')")
     ] = None,
     limit: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 25,
     skip: Annotated[int, Field(description="Number of results to skip for pagination", ge=0, le=25000)] = 0,
 ) -> dict:
-    """Search the FDA Drugs@FDA database for approved drug products.
-
-    This function searches for FDA-approved drugs based on various criteria including
-    brand names, generic names, active ingredients, sponsors, and regulatory information.
-
-    Args:
-        brand_name (str, optional): Brand or trade name of the drug.
-        generic_name (str, optional): Generic name of the drug.
-        active_ingredient (str, optional): Active ingredient name.
-        sponsor_name (str, optional): Company or sponsor name.
-        application_number (str, optional): FDA application number (NDA, ANDA, or BLA).
-        marketing_status (str, optional): Marketing status of the drug.
-        dosage_form (str, optional): Dosage form of the drug.
-        route (str, optional): Route of administration.
-        search_type (str): How to combine search terms - "and" or "or".
-        sort_by (str, optional): Field to sort results by.
-        limit (int): Maximum number of results to return (1-1000).
-        skip (int): Number of results to skip for pagination (0-25000).
+    """Search FDA Drugs@FDA database for approved drug products. Supports multiple search criteria.
 
     Returns:
-        dict: Search results from the FDA Drugs@FDA API.
+        dict: Results array with drug products including application numbers, sponsors, products array or error message.
     """
     # Ensure at least one search parameter is provided
     search_params = [

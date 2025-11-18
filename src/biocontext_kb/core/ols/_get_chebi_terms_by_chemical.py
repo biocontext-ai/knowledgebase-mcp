@@ -9,29 +9,21 @@ from biocontext_kb.core._server import core_mcp
 @core_mcp.tool()
 def get_chebi_terms_by_chemical(
     chemical_name: Annotated[
-        str, Field(description="The chemical or drug name to search for (e.g., 'aspirin', 'glucose')")
+        str, Field(description="Chemical or drug name to search for (e.g., 'aspirin', 'glucose')")
     ],
     size: Annotated[
         int,
-        Field(description="The maximum number of results to return"),
+        Field(description="Maximum number of results to return"),
     ] = 10,
     exact_match: Annotated[
         bool,
-        Field(description="Whether to perform an exact match search"),
+        Field(description="Whether to perform exact match search"),
     ] = False,
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for ChEBI terms related to a chemical name.
-
-    This function searches for ChEBI (Chemical Entities of Biological Interest) terms
-    associated with a given chemical name using the OLS API.
-
-    Args:
-        chemical_name (str): The chemical or drug name to search for (e.g., "aspirin").
-        size (int): Maximum number of results to return (default: 10).
-        exact_match (bool): Whether to perform an exact match search (default: False).
+    """Search OLS for ChEBI (Chemical Entities of Biological Interest) terms for a chemical or drug name.
 
     Returns:
-        dict: Dictionary containing ChEBI terms and information or error message
+        dict: ChEBI terms with chebi_terms array containing id, label, description, synonyms or error message.
     """
     if not chemical_name:
         return {"error": "chemical_name must be provided"}

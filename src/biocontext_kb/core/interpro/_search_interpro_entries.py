@@ -10,46 +10,35 @@ from biocontext_kb.core._server import core_mcp
 def search_interpro_entries(
     query: Annotated[
         Optional[str],
-        Field(description="Search term for InterPro entry names or descriptions"),
+        Field(description="Search term for entry names/descriptions"),
     ] = None,
     entry_type: Annotated[
         Optional[str],
         Field(
-            description="Filter by entry type: family, domain, homologous_superfamily, repeat, conserved_site, binding_site, active_site, ptm"
+            description="family, domain, homologous_superfamily, repeat, conserved_site, binding_site, active_site, or ptm"
         ),
     ] = None,
     source_database: Annotated[
         Optional[str],
-        Field(description="Filter by member database: pfam, prosite, panther, smart, etc."),
+        Field(description="pfam, prosite, panther, smart, cdd, hamap, pirsf, prints, etc."),
     ] = None,
     go_term: Annotated[
         Optional[str],
-        Field(description="Filter by GO term (e.g., 'GO:0006122')"),
+        Field(description="GO term filter (e.g., 'GO:0006122')"),
     ] = None,
     species_filter: Annotated[
         Optional[str],
-        Field(description="Filter by taxonomy ID (e.g., '9606' for human)"),
+        Field(description="Taxonomy ID filter (e.g., '9606')"),
     ] = None,
     page_size: Annotated[
         int,
-        Field(description="Number of results to return (max 200)"),
+        Field(description="Results per page (max 200)"),
     ] = 20,
 ) -> dict:
-    """Search InterPro entries by various criteria.
-
-    This function allows searching the InterPro database using different filters
-    such as entry type, source database, GO terms, and species.
-
-    Args:
-        query (str, optional): Search term for InterPro entry names or descriptions.
-        entry_type (str, optional): Filter by entry type (family, domain, etc.).
-        source_database (str, optional): Filter by member database (pfam, prosite, etc.).
-        go_term (str, optional): Filter by GO term (e.g., "GO:0006122").
-        species_filter (str, optional): Filter by taxonomy ID (e.g., "9606" for human).
-        page_size (int, optional): Number of results to return (max 200). Defaults to 20.
+    """Search InterPro entries by name, type, database, GO term, or species. Returns matching entries with metadata.
 
     Returns:
-        dict: Search results with InterPro entries matching the criteria
+        dict: Search results with results array (InterPro entries), count, total_available, search_criteria or error message.
     """
     base_url = "https://www.ebi.ac.uk/interpro/api/entry/interpro"
 

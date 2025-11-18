@@ -10,36 +10,25 @@ from biocontext_kb.core._server import core_mcp
 def get_protein_domains(
     protein_id: Annotated[
         str,
-        Field(description="The protein identifier/accession (e.g., 'P04637' or 'CYC_HUMAN')"),
+        Field(description="UniProt ID/accession (e.g., 'P04637' or 'CYC_HUMAN')"),
     ],
     source_db: Annotated[
         str,
-        Field(description="The protein database source ('uniprot', 'reviewed', or 'unreviewed')"),
+        Field(description="Database source ('uniprot', 'reviewed', or 'unreviewed')"),
     ] = "uniprot",
     include_structure_info: Annotated[
         bool,
-        Field(description="Whether to include structural information"),
+        Field(description="Include structural information"),
     ] = False,
     species_filter: Annotated[
         Optional[str],
-        Field(description="Taxonomy ID to filter results (e.g., '9606' for human)"),
+        Field(description="Taxonomy ID filter (e.g., '9606' for human)"),
     ] = None,
 ) -> dict:
-    """Get domain architecture and InterPro matches for a specific protein.
-
-    This function retrieves all InterPro domain matches for a given protein,
-    providing insight into the protein's functional domains and architecture.
-
-    To get the protein's UniProt ID, use the `get_uniprot_id_by_protein_symbol` tool first.
-
-    Args:
-        protein_id (str): The protein identifier or accession (e.g., "P04637" or "CYC_HUMAN").
-        source_db (str, optional): The protein database source. Defaults to "uniprot".
-        include_structure_info (bool, optional): Whether to include structural information. Defaults to False.
-        species_filter (str, optional): Taxonomy ID to filter results (e.g., "9606" for human). Defaults to None.
+    """Get protein domain architecture and InterPro matches. Returns all InterPro domains, functional sites, and domain architecture.
 
     Returns:
-        dict: Protein domain information including InterPro matches, domain architecture, and optional structural data
+        dict: Protein metadata with interpro_matches array, interpro_match_count, domain_architecture, optionally structure data or error message.
     """
     base_url = f"https://www.ebi.ac.uk/interpro/api/protein/{source_db}/{protein_id}"
 

@@ -11,7 +11,7 @@ def count_drugs_by_field(
     field: Annotated[
         str,
         Field(
-            description="Field to count by (e.g., 'sponsor_name', 'products.dosage_form', 'products.route', 'products.marketing_status', 'openfda.pharm_class_epc')"
+            description="Field to count (e.g., 'sponsor_name', 'products.dosage_form', 'products.route', 'openfda.pharm_class_epc')"
         ),
     ],
     search_filter: Annotated[
@@ -19,23 +19,10 @@ def count_drugs_by_field(
     ] = None,
     limit: Annotated[int, Field(description="Maximum number of count results to return", ge=1, le=1000)] = 100,
 ) -> dict:
-    """Count unique values in a specific field across FDA-approved drugs.
-
-    This function is useful for statistical analysis and getting overviews of the drug database.
-    Common fields to count include:
-    - sponsor_name: Count drugs by pharmaceutical company
-    - products.dosage_form: Count by dosage forms (tablet, injection, etc.)
-    - products.route: Count by administration routes (oral, injection, etc.)
-    - products.marketing_status: Count by marketing status
-    - openfda.pharm_class_epc: Count by pharmacologic class
-
-    Args:
-        field (str): The field to count unique values for.
-        search_filter (str, optional): Search filter to apply before counting.
-        limit (int): Maximum number of count results to return.
+    """Count unique values in a field across FDA-approved drugs. Useful for statistical analysis.
 
     Returns:
-        dict: Count results showing terms and their frequencies.
+        dict: Results array with term and count for each unique value or error message.
     """
     # If field is an array, use .exact for correct counting
     array_fields = [
@@ -68,16 +55,10 @@ def count_drugs_by_field(
 
 @core_mcp.tool()
 def get_drug_statistics() -> dict:
-    """Get general statistics about the FDA Drugs@FDA database.
-
-    This function provides an overview of the database including:
-    - Top pharmaceutical sponsors by number of approved drugs
-    - Most common dosage forms
-    - Most common routes of administration
-    - Distribution of marketing statuses
+    """Get general statistics about the FDA Drugs@FDA database. Includes top sponsors, dosage forms, routes, marketing status.
 
     Returns:
-        dict: Statistical overview of the FDA drugs database.
+        dict: Top sponsors, dosage_forms, administration_routes, marketing_statuses with counts or error message.
     """
     statistics = {}
 

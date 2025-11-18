@@ -6,15 +6,12 @@ from pydantic import Field
 
 
 def get_alphafold_info_by_uniprot_id(
-    uniprot_id: Annotated[str, Field(description="The UniProt ID of the protein (e.g., 'P62258')")],
+    uniprot_id: Annotated[str, Field(description="UniProt protein ID (e.g., 'P62258')")],
 ) -> dict:
-    """Query the AlphaFold database for the protein structure information using the UniProt ID.
-
-    Args:
-        uniprot_id (str): The UniProt ID of the protein (e.g., "P62258").
+    """Query AlphaFold database for protein structure data.
 
     Returns:
-        dict: Protein structure information or an error message.
+        dict: AlphaFold prediction data including PDB/CIF file URLs, confidence scores, and metadata or error message.
     """
     # Ensure the UniProt ID is in uppercase
     uniprot_id = uniprot_id.upper()

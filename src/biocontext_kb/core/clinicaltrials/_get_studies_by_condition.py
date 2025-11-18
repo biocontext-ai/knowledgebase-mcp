@@ -9,39 +9,28 @@ from biocontext_kb.core._server import core_mcp
 @core_mcp.tool()
 def get_studies_by_condition(
     condition: Annotated[
-        str, Field(description="Medical condition or disease name (e.g., 'breast cancer', 'diabetes', 'alzheimer')")
+        str, Field(description="Medical condition/disease (e.g., 'cancer', 'diabetes')")
     ],
     status: Annotated[
         Optional[str],
-        Field(description="Study status filter: 'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', 'ALL'"),
+        Field(description="'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', or 'ALL'"),
     ] = "ALL",
     study_type: Annotated[
-        Optional[str], Field(description="Type of study: 'INTERVENTIONAL', 'OBSERVATIONAL', 'ALL'")
+        Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'ALL'")
     ] = "ALL",
     location_country: Annotated[
-        Optional[str], Field(description="Country filter (e.g., 'United States', 'Germany')")
+        Optional[str], Field(description="Country filter (e.g., 'United States')")
     ] = None,
-    page_size: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 50,
+    page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 50,
     sort: Annotated[
         str,
-        Field(description="Sort order: 'LastUpdatePostDate:desc', 'StudyFirstPostDate:desc', 'EnrollmentCount:desc'"),
+        Field(description="'LastUpdatePostDate:desc', 'StudyFirstPostDate:desc', or 'EnrollmentCount:desc'"),
     ] = "LastUpdatePostDate:desc",
 ) -> Union[Dict[str, Any], dict]:
-    """Search for clinical trials by medical condition with simplified parameters.
-
-    This function provides a focused search for clinical trials related to a specific
-    medical condition, with common filters that biomedical researchers typically use.
-
-    Args:
-        condition (str): Medical condition or disease name to search for.
-        status (str, optional): Study status filter (default: "ALL").
-        study_type (str, optional): Type of study filter (default: "ALL").
-        location_country (str, optional): Country where studies are conducted.
-        page_size (int): Number of results to return (default: 50, max: 1000).
-        sort (str): Sort order for results (default: most recently updated).
+    """Search trials by condition with summary statistics. Returns paginated results with breakdowns by status, study type, and phase.
 
     Returns:
-        dict: Study search results with summary statistics or error message
+        dict: Studies list with summary containing condition searched, total studies, status/study type/phase breakdowns or error message.
     """
     if not condition:
         return {"error": "Medical condition must be provided"}

@@ -9,22 +9,16 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_ensembl_id_from_gene_symbol(
-    gene_symbol: Annotated[str, Field(description="The name of the gene to search for (e.g., 'TP53')")],
+    gene_symbol: Annotated[str, Field(description="Gene name (e.g., 'TP53')")],
     species: Annotated[
         str,
-        Field(description="Taxonomy ID (e.g., 10090) or species name as string"),
+        Field(description="Taxonomy ID (e.g., 9606 for human, 10090 for mouse)"),
     ] = "9606",
 ) -> dict:
-    """Query the Ensembl database for the Ensembl ID of a given gene name.
-
-    Always provide the species parameter to ensure the correct protein is returned.
-
-    Args:
-        gene_symbol (str): The name of the gene to search for (e.g., "TP53").
-        species (str): Taxonomy ID (e.g., 10090) as string (default: "9606").
+    """Get Ensembl gene ID from gene symbol. Returns the stable Ensembl ID (ENSG*) for the given gene symbol and species.
 
     Returns:
-        dict: Gene data or error message
+        dict: Ensembl gene ID in format {'ensembl_id': 'ENSG...'} or error message.
     """
     # Ensure at least one search parameter was provided
     if not gene_symbol:

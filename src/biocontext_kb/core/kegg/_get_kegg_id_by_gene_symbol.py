@@ -10,39 +10,16 @@ from biocontext_kb.core.kegg._execute_kegg_query import execute_kegg_query
 @core_mcp.tool()
 def get_kegg_id_by_gene_symbol(
     gene_symbol: Annotated[
-        str, Field(description="Gene symbol to convert to KEGG ID (e.g., 'TP53' for human, 'Trp53' for mouse)")
+        str, Field(description="Gene symbol (e.g., 'TP53' for human, 'Trp53' for mouse)")
     ],
     organism_code: Annotated[
-        str, Field(description="KEGG organism code or taxonomy ID (e.g., '9606' for human, '10090' for mouse)")
+        str, Field(description="Taxonomy ID: 9606 (human), 10090 (mouse), 10116 (rat), 562 (E. coli), 4932 (yeast)")
     ],
 ) -> str | dict:
-    """Get KEGG ID by gene symbol.
-
-    This function converts a gene symbol (like TP53) to a KEGG gene ID (like hsa:7157) for use in the KEGG API.
-    The KEGG API typically requires KEGG IDs rather than gene symbols for most operations.
-
-    This is often the first step in a workflow - get the KEGG ID, then use it in subsequent API calls.
-
-    Common organism codes:
-    - Human: 9606 (KEGG code: hsa)
-    - Mouse: 10090 (KEGG code: mmu)
-    - Rat: 10116 (KEGG code: rno)
-    - E. coli: 562 (KEGG code: eco)
-    - Yeast: 4932 (KEGG code: sce)
-
-    Args:
-        gene_symbol (str): The gene symbol to search for (e.g., "TP53" for human, "Trp53" for mouse).
-        organism_code (str): The organism code as taxonomy ID (e.g., "9606" for human, "10090" for mouse).
+    """Convert gene symbol to KEGG ID for use in subsequent API calls. Returns KEGG gene ID required for query_kegg().
 
     Returns:
-        str | dict: The KEGG ID (e.g., "hsa:7157") or an error message.
-
-    Examples:
-        >>> get_kegg_id_by_gene_symbol(gene_symbol="TP53", organism_code="9606")
-        "hsa:7157"
-
-        >>> get_kegg_id_by_gene_symbol(gene_symbol="Trp53", organism_code="10090")
-        "mmu:22059"
+        str or dict: KEGG gene ID string (e.g., 'hsa:7157') or error dict.
     """
     if not gene_symbol or not organism_code:
         return "Gene symbol and organism code are required."

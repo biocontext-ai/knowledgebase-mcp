@@ -12,39 +12,25 @@ logger = logging.getLogger(__name__)
 
 @core_mcp.tool()
 def get_recent_biorxiv_preprints(
-    server: Annotated[str, Field(description="Server to search: 'biorxiv' or 'medrxiv'")] = "biorxiv",
-    start_date: Annotated[Optional[str], Field(description="Start date in YYYY-MM-DD format")] = None,
-    end_date: Annotated[Optional[str], Field(description="End date in YYYY-MM-DD format")] = None,
+    server: Annotated[str, Field(description="'biorxiv' or 'medrxiv'")] = "biorxiv",
+    start_date: Annotated[Optional[str], Field(description="Start date (YYYY-MM-DD)")] = None,
+    end_date: Annotated[Optional[str], Field(description="End date (YYYY-MM-DD)")] = None,
     days: Annotated[
-        Optional[int], Field(description="Number of recent days to search (alternative to date range)", ge=1, le=365)
+        Optional[int], Field(description="Search last N days (1-365, alternative to date range)", ge=1, le=365)
     ] = None,
     recent_count: Annotated[
-        Optional[int], Field(description="Number of most recent preprints (alternative to date range)", ge=1, le=1000)
+        Optional[int], Field(description="Most recent N preprints (1-1000, alternative to date range)", ge=1, le=1000)
     ] = None,
     category: Annotated[
-        Optional[str], Field(description="Subject category filter (e.g., 'cell biology', 'neuroscience')")
+        Optional[str], Field(description="Filter by subject (e.g., 'cell biology', 'neuroscience')")
     ] = None,
-    cursor: Annotated[int, Field(description="Starting position for pagination", ge=0)] = 0,
-    max_results: Annotated[int, Field(description="Maximum number of results to return", ge=1, le=500)] = 100,
+    cursor: Annotated[int, Field(description="Pagination: starting position", ge=0)] = 0,
+    max_results: Annotated[int, Field(description="Max results per page (1-500)", ge=1, le=500)] = 100,
 ) -> Dict[str, Any]:
-    """Get recent preprints from bioRxiv or medRxiv.
-
-    This tool searches the bioRxiv and medRxiv preprint servers for research papers.
-    You can search by date range, recent posts, or most recent papers.
-    Results are paginated with up to 100 papers per API call.
-
-    Args:
-        server (str): Server to search - 'biorxiv' or 'medrxiv' (default: 'biorxiv').
-        start_date (str, optional): Start date in YYYY-MM-DD format.
-        end_date (str, optional): End date in YYYY-MM-DD format.
-        days (int, optional): Number of recent days to search (1-365).
-        recent_count (int, optional): Number of most recent preprints (1-1000).
-        category (str, optional): Subject category filter (e.g., 'cell biology', 'neuroscience').
-        cursor (int): Starting position for pagination (default: 0).
-        max_results (int): Maximum number of results to return (default: 100, max: 500).
+    """Search bioRxiv/medRxiv preprints by date range or recent count. Specify one search method: date range, days, or recent_count.
 
     Returns:
-        dict: Preprint search results or error message
+        dict: Search results with server, search_params, total_returned, papers list (each with title, authors, abstract, metadata), pagination info or error message.
     """
     # Validate server
     if server.lower() not in ["biorxiv", "medrxiv"]:

@@ -9,21 +9,14 @@ from biocontext_kb.core.stringdb._get_string_id import get_string_id
 
 @core_mcp.tool()
 def get_string_interactions(
-    protein_symbol: Annotated[str, Field(description="The name of the protein to search for (e.g., 'TP53')")],
-    species: Annotated[str, Field(description="The species taxonomy ID (e.g., '10090' for mouse)")],
-    min_score: Annotated[int, Field(description="Minimum combined score threshold", ge=0, le=1000)] = 700,
+    protein_symbol: Annotated[str, Field(description="Protein name to search for (e.g., 'TP53')")],
+    species: Annotated[str, Field(description="Species taxonomy ID (e.g., '10090' for mouse)")],
+    min_score: Annotated[int, Field(description="Minimum combined score threshold (0-1000)", ge=0, le=1000)] = 700,
 ) -> Union[List[Dict[str, Any]], dict]:
-    """Get all protein-protein interactions for a given protein with a combined score above the threshold.
-
-    Always provide the species parameter to ensure the correct protein is returned.
-
-    Args:
-        protein_symbol (str): The name of the protein to search for (e.g., "TP53").
-        species (str): The species taxonomy ID (e.g., "10090" for mouse).
-        min_score (int): Minimum combined score threshold (default: 700).
+    """Retrieve protein-protein interactions for a given protein with scores above threshold. Always provide species parameter.
 
     Returns:
-        list: A list of dictionaries containing interacting proteins and their scores.
+        list or dict: Protein interactions array with stringId_A, stringId_B, preferredName_A/B, score, evidence channels or error message.
     """
     # First resolve the protein name to a STRING ID
     try:

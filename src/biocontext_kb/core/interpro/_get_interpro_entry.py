@@ -10,34 +10,25 @@ from biocontext_kb.core._server import core_mcp
 def get_interpro_entry(
     interpro_id: Annotated[
         str,
-        Field(description="The InterPro entry identifier (e.g., 'IPR000001')"),
+        Field(description="InterPro ID (e.g., 'IPR000001')"),
     ],
     include_interactions: Annotated[
         bool,
-        Field(description="Whether to include protein-protein interactions data"),
+        Field(description="Include protein-protein interactions data"),
     ] = False,
     include_pathways: Annotated[
         bool,
-        Field(description="Whether to include pathway information"),
+        Field(description="Include pathway information"),
     ] = False,
     include_cross_references: Annotated[
         bool,
-        Field(description="Whether to include cross-references to other databases"),
+        Field(description="Include cross-references to other databases"),
     ] = False,
 ) -> dict:
-    """Get detailed information about a specific InterPro entry.
-
-    InterPro entries represent protein families, domains, and functional sites.
-    Each entry integrates information from multiple member databases.
-
-    Args:
-        interpro_id (str): The InterPro entry identifier (e.g., "IPR000001").
-        include_interactions (bool, optional): Whether to include protein-protein interactions data. Defaults to False.
-        include_pathways (bool, optional): Whether to include pathway information. Defaults to False.
-        include_cross_references (bool, optional): Whether to include cross-references to other databases. Defaults to False.
+    """Get InterPro entry details (family, domain, or functional site). Returns metadata from member databases like PFAM, PROSITE.
 
     Returns:
-        dict: InterPro entry data including description, type, member databases, and optional additional data
+        dict: Entry metadata including name, type, description, member databases, optionally interactions/pathways/cross-references or error message.
     """
     # Validate InterPro ID format
     interpro_id = interpro_id.upper().strip()

@@ -7,14 +7,10 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_available_ontologies() -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for all available ontologies.
-
-    This function retrieves a list of all ontologies available in OLS, including
-    their names, descriptions, and metadata. Use this function first to discover
-    which ontologies are available before using other search functions.
+    """Query OLS for all available ontologies with their metadata. Use this first to discover available ontologies.
 
     Returns:
-        dict: Dictionary containing available ontologies and their information or error message
+        dict: Ontologies list with id, name, description, prefix, homepage, number of terms, status or error message.
     """
     url = "https://www.ebi.ac.uk/ols4/api/v2/ontologies"
 

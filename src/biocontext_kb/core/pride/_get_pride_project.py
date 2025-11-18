@@ -10,31 +10,21 @@ from biocontext_kb.core._server import core_mcp
 def get_pride_project(
     project_accession: Annotated[
         str,
-        Field(description="The PRIDE project accession (e.g., 'PRD000001')"),
+        Field(description="PRIDE project accession (e.g., 'PRD000001')"),
     ],
     include_files: Annotated[
         bool,
-        Field(description="Whether to include file information for the project"),
+        Field(description="Include file information (limited to first 20 files)"),
     ] = False,
     include_similar_projects: Annotated[
         bool,
-        Field(description="Whether to include similar projects based on metadata"),
+        Field(description="Include similar projects based on metadata (limited to 10)"),
     ] = False,
 ) -> dict:
-    """Get detailed information about a specific PRIDE project.
-
-    PRIDE (PRoteomics IDEntifications) is a public repository for mass spectrometry
-    proteomics data. This function retrieves comprehensive information about a
-    specific project including metadata, experimental details, and optionally
-    associated files and similar projects.
-
-    Args:
-        project_accession (str): The PRIDE project accession (e.g., "PRD000001").
-        include_files (bool, optional): Whether to include file information. Defaults to False.
-        include_similar_projects (bool, optional): Whether to include similar projects. Defaults to False.
+    """Retrieve detailed information about a specific PRIDE mass spectrometry proteomics project. Returns metadata and experimental details.
 
     Returns:
-        dict: Project information including metadata, experimental details, and optional file/similar project data
+        dict: Project details with accession, title, description, organisms, instruments, publications, optionally files/similar_projects or error message.
     """
     base_url = "https://www.ebi.ac.uk/pride/ws/archive/v3"
 
