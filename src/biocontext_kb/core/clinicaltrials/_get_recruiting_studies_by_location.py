@@ -8,38 +8,18 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_recruiting_studies_by_location(
-    location_country: Annotated[
-        str, Field(description="Country name (e.g., 'United States', 'Germany', 'United Kingdom')")
-    ],
-    location_state: Annotated[
-        Optional[str], Field(description="State or province (e.g., 'California', 'New York')")
-    ] = None,
-    location_city: Annotated[Optional[str], Field(description="City name (e.g., 'Los Angeles', 'Boston')")] = None,
-    condition: Annotated[
-        Optional[str], Field(description="Medical condition to filter by (e.g., 'cancer', 'diabetes')")
-    ] = None,
-    study_type: Annotated[
-        Optional[str], Field(description="Type of study: 'INTERVENTIONAL', 'OBSERVATIONAL', 'ALL'")
-    ] = "ALL",
-    age_range: Annotated[Optional[str], Field(description="Age group: 'CHILD', 'ADULT', 'OLDER_ADULT', 'ALL'")] = "ALL",
-    page_size: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 50,
+    location_country: Annotated[str, Field(description="Country name (e.g., 'United States', 'Germany')")],
+    location_state: Annotated[Optional[str], Field(description="State/province (e.g., 'California')")] = None,
+    location_city: Annotated[Optional[str], Field(description="City name")] = None,
+    condition: Annotated[Optional[str], Field(description="Medical condition filter (e.g., 'cancer')")] = None,
+    study_type: Annotated[Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'ALL'")] = "ALL",
+    age_range: Annotated[Optional[str], Field(description="'CHILD', 'ADULT', 'OLDER_ADULT', or 'ALL'")] = "ALL",
+    page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 50,
 ) -> Union[Dict[str, Any], dict]:
-    """Find recruiting clinical trials in a specific geographic location.
-
-    This function helps patients and healthcare providers find clinical trials
-    that are currently recruiting participants in their area.
-
-    Args:
-        location_country (str): Country name where studies are conducted.
-        location_state (str, optional): State or province name.
-        location_city (str, optional): City name.
-        condition (str, optional): Medical condition to filter by.
-        study_type (str, optional): Type of study filter (default: "ALL").
-        age_range (str, optional): Age group filter (default: "ALL").
-        page_size (int): Number of results to return (default: 50, max: 1000).
+    """Find recruiting clinical trials by geographic location. Returns paginated results with summary breakdowns.
 
     Returns:
-        dict: Recruiting studies in the specified location or error message
+        dict: Studies list with summary containing search location, total studies, study type/phase/condition breakdowns, recruiting locations or error message.
     """
     if not location_country:
         return {"error": "Location country must be provided"}

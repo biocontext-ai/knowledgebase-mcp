@@ -8,28 +8,20 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_go_terms_by_gene(
-    gene_name: Annotated[str, Field(description="The gene name or symbol to search for (e.g., 'TP53', 'BRCA1')")],
+    gene_name: Annotated[str, Field(description="Gene name or symbol to search for (e.g., 'TP53', 'BRCA1')")],
     size: Annotated[
         int,
-        Field(description="The maximum number of results to return"),
+        Field(description="Maximum number of results to return"),
     ] = 10,
     exact_match: Annotated[
         bool,
-        Field(description="Whether to perform an exact match search"),
+        Field(description="Whether to perform exact match search"),
     ] = False,
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for Gene Ontology (GO) terms related to a gene name.
-
-    This function searches for GO terms associated with a given gene name using the OLS API.
-    Gene Ontology provides structured vocabularies for gene and gene product attributes.
-
-    Args:
-        gene_name (str): The gene name or symbol to search for (e.g., "TP53").
-        size (int): Maximum number of results to return (default: 10).
-        exact_match (bool): Whether to perform an exact match search (default: False).
+    """Search OLS for Gene Ontology (GO) terms related to a gene name using structured vocabularies.
 
     Returns:
-        dict: Dictionary containing GO terms and information or error message
+        dict: GO terms with go_terms array containing id, label, description, type or error message.
     """
     if not gene_name:
         return {"error": "gene_name must be provided"}

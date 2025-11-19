@@ -58,6 +58,9 @@ coverage.xml
 .ruff_cache
 htmlcov
 
+# Ignore Claude Code
+.claude
+
 # Keep folders indicated by .gitkeep
 !/**/.gitkeep
 !/**/.gitignore

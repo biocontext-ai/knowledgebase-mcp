@@ -8,11 +8,11 @@ from biocontext_kb.core.panglaodb._get_panglaodb_df import get_panglaodb_df
 
 @core_mcp.tool()
 def get_panglaodb_marker_genes(
-    species: Annotated[str, Field(description="The species ('Hs' for Human or 'Mm' for Mouse)")],
+    species: Annotated[str, Field(description="Species: 'Hs' for Human or 'Mm' for Mouse")],
     min_sensitivity: Annotated[
         Optional[float],
         Field(
-            description="Minimum sensitivity score (0-1). Applied to species-specific column.",
+            description="Minimum sensitivity score (0-1), applied to species-specific column",
             ge=0,
             le=1,
         ),
@@ -20,36 +20,28 @@ def get_panglaodb_marker_genes(
     min_specificity: Annotated[
         Optional[float],
         Field(
-            description="Minimum specificity score (0-1). Applied to species-specific column.",
+            description="Minimum specificity score (0-1), applied to species-specific column",
             ge=0,
             le=1,
         ),
     ] = None,
     organ: Annotated[
         Optional[str],
-        Field(description="Filter by organ (e.g., 'Brain', 'Lung'). Case-insensitive."),
+        Field(description="Organ filter (e.g., 'Brain', 'Lung'), case-insensitive"),
     ] = None,
     cell_type: Annotated[
         Optional[str],
-        Field(description="Filter by cell type (e.g., 'Smooth muscle cells', 'T cells'). Case-insensitive."),
+        Field(description="Cell type filter (e.g., 'Smooth muscle cells', 'T cells'), case-insensitive"),
     ] = None,
     gene_symbol: Annotated[
         Optional[str],
-        Field(description="Filter by gene symbol (e.g., 'MAFB', 'SYNPO'). Case-insensitive."),
+        Field(description="Gene symbol filter (e.g., 'MAFB', 'SYNPO'), case-insensitive"),
     ] = None,
 ) -> Dict[str, Any]:
-    """Retrieves marker genes from the PanglaoDB dataset based on specified filters.
-
-    Args:
-        species: The species ('Hs' for Human or 'Mm' for Mouse).
-        min_sensitivity: Minimum sensitivity score (0-1).
-        min_specificity: Minimum specificity score (0-1).
-        organ: Filter by organ name (case-insensitive).
-        cell_type: Filter by cell type name (case-insensitive).
-        gene_symbol: Filter by gene symbol (case-insensitive).
+    """Retrieve marker genes from PanglaoDB dataset with optional filters. Supports filtering by species, scores, organ, cell type, gene symbol.
 
     Returns:
-        A dictionary containing a list of matching marker gene records or an error message.
+        dict: Markers array with gene symbols, cell types, organs, sensitivity/specificity scores or error message.
     """
     panglao_db_df = get_panglaodb_df()
     if panglao_db_df is None:

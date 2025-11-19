@@ -8,30 +8,20 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_cell_ontology_terms(
-    cell_type: Annotated[
-        str, Field(description="The cell type to search for (e.g., 'T cell', 'neuron', 'hepatocyte')")
-    ],
+    cell_type: Annotated[str, Field(description="Cell type to search for (e.g., 'T cell', 'neuron')")],
     size: Annotated[
         int,
-        Field(description="The maximum number of results to return"),
+        Field(description="Maximum number of results to return"),
     ] = 10,
     exact_match: Annotated[
         bool,
-        Field(description="Whether to perform an exact match search"),
+        Field(description="Whether to perform exact match search"),
     ] = False,
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for Cell Ontology (CL) terms.
-
-    This function searches for Cell Ontology terms associated with cell types
-    using the OLS API. The Cell Ontology provides a controlled vocabulary for cell types.
-
-    Args:
-        cell_type (str): The cell type to search for (e.g., "T cell").
-        size (int): Maximum number of results to return (default: 10).
-        exact_match (bool): Whether to perform an exact match search (default: False).
+    """Search OLS for Cell Ontology (CL) terms using a controlled vocabulary for cell types.
 
     Returns:
-        dict: Dictionary containing Cell Ontology terms and information or error message
+        dict: Cell ontology terms with cl_terms array containing id, label, definition, synonyms or error message.
     """
     if not cell_type:
         return {"error": "cell_type must be provided"}

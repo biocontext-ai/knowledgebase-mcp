@@ -14,15 +14,15 @@ def search_pride_projects(
     ] = None,
     organism_filter: Annotated[
         Optional[str],
-        Field(description="Filter by organism (e.g., 'Homo sapiens', 'human')"),
+        Field(description="Organism filter (e.g., 'Homo sapiens', 'human')"),
     ] = None,
     instrument_filter: Annotated[
         Optional[str],
-        Field(description="Filter by instrument type (e.g., 'Orbitrap', 'LTQ')"),
+        Field(description="Instrument type filter (e.g., 'Orbitrap', 'LTQ')"),
     ] = None,
     experiment_type_filter: Annotated[
         Optional[str],
-        Field(description="Filter by experiment type (e.g., 'TMT', 'Label-free')"),
+        Field(description="Experiment type filter (e.g., 'TMT', 'Label-free')"),
     ] = None,
     page_size: Annotated[
         int,
@@ -30,30 +30,17 @@ def search_pride_projects(
     ] = 20,
     sort_field: Annotated[
         str,
-        Field(description="Field to sort by: submissionDate, publicationDate"),
+        Field(description="Sort field: submissionDate or publicationDate"),
     ] = "submissionDate",
     sort_direction: Annotated[
         str,
         Field(description="Sort direction: ASC or DESC"),
     ] = "DESC",
 ) -> dict:
-    """Search PRIDE Archive projects by various criteria.
-
-    This function searches the PRIDE database for mass spectrometry proteomics
-    projects using keywords and filters. Useful for finding relevant datasets
-    for comparative analysis or method validation.
-
-    Args:
-        keyword (str, optional): Search keywords for project titles/descriptions.
-        organism_filter (str, optional): Filter by organism name.
-        instrument_filter (str, optional): Filter by mass spectrometer instrument.
-        experiment_type_filter (str, optional): Filter by experimental approach.
-        page_size (int, optional): Number of results (max 100). Defaults to 20.
-        sort_field (str, optional): Sort field. Defaults to "submissionDate".
-        sort_direction (str, optional): Sort direction. Defaults to "DESC".
+    """Search PRIDE database for mass spectrometry proteomics projects using keywords and filters.
 
     Returns:
-        dict: Search results with matching PRIDE projects and metadata
+        dict: Results array with project accessions, titles, descriptions, organisms, instruments, experiment types, count, search_criteria or error message.
     """
     base_url = "https://www.ebi.ac.uk/pride/ws/archive/v3/search/projects"
 

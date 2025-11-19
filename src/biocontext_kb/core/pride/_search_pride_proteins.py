@@ -10,7 +10,7 @@ from biocontext_kb.core._server import core_mcp
 def search_pride_proteins(
     project_accession: Annotated[
         str,
-        Field(description="The PRIDE project accession to search proteins in"),
+        Field(description="PRIDE project accession to search proteins in"),
     ],
     keyword: Annotated[
         Optional[str],
@@ -22,28 +22,17 @@ def search_pride_proteins(
     ] = 20,
     sort_field: Annotated[
         str,
-        Field(description="Field to sort by: accession, proteinName, gene"),
+        Field(description="Sort field: accession, proteinName, or gene"),
     ] = "accession",
     sort_direction: Annotated[
         str,
         Field(description="Sort direction: ASC or DESC"),
     ] = "ASC",
 ) -> dict:
-    """Search proteins identified in a specific PRIDE project.
-
-    This function searches for proteins identified in a specific PRIDE mass
-    spectrometry project. Useful for finding specific proteins of interest
-    in proteomics datasets.
-
-    Args:
-        project_accession (str): The PRIDE project accession to search in.
-        keyword (str, optional): Search keyword for protein names or accessions.
-        page_size (int, optional): Number of results (max 100). Defaults to 20.
-        sort_field (str, optional): Sort field. Defaults to "accession".
-        sort_direction (str, optional): Sort direction. Defaults to "ASC".
+    """Search for proteins identified in a specific PRIDE mass spectrometry project. Useful for finding specific proteins in proteomics datasets.
 
     Returns:
-        dict: Search results with proteins found in the specified project
+        dict: Proteins list with accessions, names, genes, sequences, modifications, associated projects or error message.
     """
     base_url = "https://www.ebi.ac.uk/pride/ws/archive/v3/pride-ap/search/proteins"
 

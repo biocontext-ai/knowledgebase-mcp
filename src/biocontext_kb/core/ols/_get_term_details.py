@@ -8,24 +8,15 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_term_details(
-    term_id: Annotated[
-        str, Field(description="The term ID (CURIE) to get details for (e.g., 'EFO:0000001', 'GO:0008150')")
-    ],
+    term_id: Annotated[str, Field(description="Term ID in CURIE format (e.g., 'EFO:0000001', 'GO:0008150')")],
     ontology_id: Annotated[
-        str, Field(description="The ontology ID where the term is defined (e.g., 'efo', 'go', 'chebi')")
+        str, Field(description="Ontology ID where the term is defined (e.g., 'efo', 'go', 'chebi')")
     ],
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for detailed information about a specific term.
-
-    This function retrieves comprehensive information about a specific ontology term,
-    including its definition, synonyms, hierarchical relationships, and cross-references.
-
-    Args:
-        term_id (str): The term ID in CURIE format (e.g., "EFO:0000001").
-        ontology_id (str): The ontology ID (e.g., "efo").
+    """Get comprehensive details about a specific ontology term including definition, synonyms, hierarchical relationships.
 
     Returns:
-        dict: Dictionary containing detailed term information or error message
+        dict: Term details with id, label, definition, synonyms, hierarchical info, num_descendants or error message.
     """
     if not term_id:
         return {"error": "term_id must be provided"}

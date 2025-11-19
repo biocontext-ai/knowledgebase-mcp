@@ -14,24 +14,16 @@ from biocontext_kb.core.uniprot._get_uniprot_id_by_protein_symbol import (
 
 @core_mcp.tool()
 def get_alphafold_info_by_protein_symbol(
-    protein_symbol: Annotated[str, Field(description="The name of the gene to search for (e.g., 'SYNPO')")],
+    protein_symbol: Annotated[str, Field(description="Gene/protein name (e.g., 'SYNPO')")],
     species: Annotated[
         str,
-        Field(description="The organism ID (e.g., '9606' for human)"),
+        Field(description="Taxonomy ID (e.g., '9606' for human)"),
     ] = "9606",
 ) -> dict:
-    """Query the AlphaFold database for the protein structure information using the protein name.
-
-    This function constructs a query URL to fetch data from the AlphaFold database based on the provided protein name.
-    The response contains links to the PDB and CIF files for the protein structure, as well as general information about
-    the protein.
-
-    Args:
-        protein_symbol (Annotated[str, Field, optional): The name of the protein to search for (e.g., "SYNPO").
-        species (str): The organism ID (e.g., "9606" for human). Default is "9606".
+    """Query AlphaFold database using protein name. First converts protein symbol to UniProt ID, then fetches structure predictions.
 
     Returns:
-        dict: Protein structure information or an error message.
+        dict: AlphaFold prediction data including PDB/CIF file URLs, confidence scores, and metadata or error message.
     """
     # Get the UniProt Id from the protein_symbol
     try:

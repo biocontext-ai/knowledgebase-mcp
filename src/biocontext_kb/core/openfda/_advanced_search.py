@@ -11,23 +11,15 @@ def get_available_pharmacologic_classes(
     class_type: Annotated[
         str,
         Field(
-            description="Type of pharmacologic class: 'epc' (Established Pharmacologic Class), 'moa' (Mechanism of Action), 'pe' (Physiologic Effect), or 'cs' (Chemical Structure)"
+            description="Class type: 'epc' (Established Pharmacologic Class), 'moa' (Mechanism of Action), 'pe' (Physiologic Effect), or 'cs' (Chemical Structure)"
         ),
     ] = "epc",
     limit: Annotated[int, Field(description="Number of unique classes to return", ge=1, le=1000)] = 100,
 ) -> dict:
-    """Get available pharmacologic classes from the FDA database.
-
-    This function retrieves the actual pharmacologic class values available in the
-    FDA database, which can then be used with search_drugs_by_therapeutic_class.
-    Always call this function first to see available options before searching.
-
-    Args:
-        class_type (str): Type of classification - epc, moa, pe, or cs.
-        limit (int): Maximum number of unique classes to return.
+    """Get available pharmacologic classes from FDA database. Call this first to see available options.
 
     Returns:
-        dict: Available pharmacologic class values in the FDA database.
+        dict: Class type, field, available_classes array with term/count, total_found or error message.
     """
     # Map class type to the appropriate OpenFDA field
     class_field_mapping = {
@@ -66,30 +58,21 @@ def search_drugs_by_therapeutic_class(
     therapeutic_class: Annotated[
         str,
         Field(
-            description="Exact therapeutic/pharmacologic class term from FDA database (use get_available_pharmacologic_classes first to see options)"
+            description="Exact therapeutic/pharmacologic class term from FDA (use get_available_pharmacologic_classes first)"
         ),
     ],
     class_type: Annotated[
         str,
         Field(
-            description="Type of pharmacologic class: 'epc' (Established Pharmacologic Class), 'moa' (Mechanism of Action), 'pe' (Physiologic Effect), or 'cs' (Chemical Structure)"
+            description="Class type: 'epc' (Established Pharmacologic Class), 'moa' (Mechanism of Action), 'pe' (Physiologic Effect), or 'cs' (Chemical Structure)"
         ),
     ] = "epc",
     limit: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 25,
 ) -> dict:
-    """Search for drugs by their therapeutic or pharmacologic class.
-
-    IMPORTANT: Use get_available_pharmacologic_classes() first to see the exact
-    class terms available in the FDA database. This function requires exact matches
-    of the pharmacologic class terms as they appear in the FDA data.
-
-    Args:
-        therapeutic_class (str): The exact therapeutic class term from FDA database.
-        class_type (str): Type of classification - epc, moa, pe, or cs.
-        limit (int): Maximum number of results to return.
+    """Search for drugs by therapeutic or pharmacologic class. Use get_available_pharmacologic_classes() first for exact terms.
 
     Returns:
-        dict: Search results for drugs in the specified therapeutic class.
+        dict: FDA drug results array with application info, products, sponsor names or error message.
     """
     # Map class type to the appropriate OpenFDA field
     class_field_mapping = {
@@ -120,18 +103,12 @@ def search_drugs_by_therapeutic_class(
 
 @core_mcp.tool()
 def get_generic_equivalents(
-    brand_name: Annotated[str, Field(description="Brand name drug to find generic equivalents for")],
+    brand_name: Annotated[str, Field(description="Brand name drug to find generics for")],
 ) -> dict:
-    """Find generic equivalents for a brand name drug.
-
-    This function searches for ANDA (Abbreviated New Drug Application) entries
-    that are generic equivalents of a specified brand name drug.
-
-    Args:
-        brand_name (str): The brand name drug to find generics for.
+    """Find generic equivalents for a brand name drug. Searches ANDA entries with matching active ingredients.
 
     Returns:
-        dict: Generic drug equivalents and their manufacturers.
+        dict: Brand drug info, generic_equivalents array, total_generics_found count or error message.
     """
     # First, search for the brand name drug to get its active ingredient
     brand_query = f"(openfda.brand_name:{brand_name} OR products.brand_name:{brand_name})"

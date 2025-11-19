@@ -6,10 +6,10 @@ from biocontext_kb.core.panglaodb._get_panglaodb_df import get_panglaodb_df
 
 @core_mcp.tool()
 def get_panglaodb_options() -> Dict[str, List[str] | str]:
-    """Retrieves the available options for filtering marker genes in the PanglaoDB dataset.
+    """Retrieve available filter options for PanglaoDB marker genes. Returns unique values for organs and cell types.
 
     Returns:
-        A dictionary containing lists of unique values for species, organ, cell type, and gene symbols.
+        dict: Lists of unique organ and cell_type values available in PanglaoDB dataset or error message.
     """
     panglao_db_df = get_panglaodb_df()
     if panglao_db_df is None:

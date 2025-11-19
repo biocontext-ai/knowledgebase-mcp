@@ -9,10 +9,14 @@ from biocontext_kb.core.ensembl import get_ensembl_id_from_gene_symbol
 
 @core_mcp.tool()
 def get_human_protein_atlas_info(
-    gene_id: Annotated[Optional[str], Field(description="The Ensembl gene ID (e.g., 'ENSG00000141510')")],
-    gene_symbol: Annotated[Optional[str], Field(description="The gene name (e.g., 'TP53')")],
+    gene_id: Annotated[Optional[str], Field(description="Ensembl gene ID (e.g., 'ENSG00000141510')")],
+    gene_symbol: Annotated[Optional[str], Field(description="Gene symbol (e.g., 'TP53')")],
 ) -> dict:
-    """Query the Human Protein Atlas API for target general information, genetic constraint, and tractability."""
+    """Retrieve Human Protein Atlas information including expression, localization, and pathology data. Provide either gene_id or gene_symbol.
+
+    Returns:
+        dict: Protein atlas data with tissue_expression, subcellular_location, pathology, antibodies, RNA/protein levels or error message.
+    """
     if gene_id is None and gene_symbol is None:
         return {"error": "At least one of gene_id or gene_symbol must be provided"}
 

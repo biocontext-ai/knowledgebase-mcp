@@ -8,29 +8,17 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_term_hierarchical_children(
-    term_id: Annotated[
-        str, Field(description="The term ID (CURIE) to get children for (e.g., 'EFO:0000001', 'GO:0008150')")
-    ],
-    ontology_id: Annotated[
-        str, Field(description="The ontology ID where the term is defined (e.g., 'efo', 'go', 'chebi')")
-    ],
+    term_id: Annotated[str, Field(description="Term ID in CURIE format (e.g., 'EFO:0000001', 'GO:0008150')")],
+    ontology_id: Annotated[str, Field(description="Ontology ID (e.g., 'efo', 'go', 'chebi')")],
     size: Annotated[
         int,
-        Field(description="The maximum number of children to return"),
+        Field(description="Maximum number of children to return"),
     ] = 20,
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for hierarchical children of a term.
-
-    This function retrieves the hierarchical children of a specific ontology term,
-    including subclasses and terms related via hierarchical properties like 'part of'.
-
-    Args:
-        term_id (str): The term ID in CURIE format (e.g., "EFO:0000001").
-        ontology_id (str): The ontology ID (e.g., "efo").
-        size (int): Maximum number of children to return (default: 20).
+    """Get hierarchical children of an ontology term from OLS. Includes subclasses and hierarchical properties.
 
     Returns:
-        dict: Dictionary containing hierarchical children or error message
+        dict: Parent term, hierarchical_children array with id/label/definition, total_children, page_info or error message.
     """
     if not term_id:
         return {"error": "term_id must be provided"}

@@ -10,39 +10,29 @@ from biocontext_kb.core._server import core_mcp
 def get_uniprot_protein_info(
     protein_id: Annotated[
         Optional[str],
-        Field(description="The protein identifier or accession number (e.g., 'P04637')"),
+        Field(description="Protein accession number (e.g., 'P04637')"),
     ] = None,
     protein_name: Annotated[
         Optional[str],
-        Field(description="The name of the protein to search for (e.g., 'P53')"),
+        Field(description="Protein name to search for (e.g., 'P53')"),
     ] = None,
     gene_symbol: Annotated[
         Optional[str],
-        Field(description="The gene symbol to search for (e.g., 'TP53')"),
+        Field(description="Gene symbol to search for (e.g., 'TP53')"),
     ] = None,
     species: Annotated[
         Optional[str],
-        Field(description="Taxonomy ID (e.g., 10090) or species name as string"),
+        Field(description="Taxonomy ID (e.g., '10090') or species name"),
     ] = None,
     include_references: Annotated[
         bool,
-        Field(description="Whether to include references and cross-references in the response"),
+        Field(description="Include references and cross-references in response"),
     ] = False,
 ) -> dict:
-    """Query the UniProt database for protein information.
-
-    Provide either protein_id or protein_name to search for a specific protein.
-    Always provide the species parameter to ensure the correct protein is returned.
-
-    Args:
-        protein_id (str, optional): The protein identifier or accession number (e.g., "P04637"). Only provide if protein_name is None.
-        protein_name (str, optional): The name of the protein to search for (e.g., "P53").
-        gene_symbol (str, optional): The gene name to search for (e.g., "TP53").
-        species (str, optional): Taxonomy ID (e.g., 10090) as string.
-        include_references (bool, optional): Whether to include references and cross-references in the response. Defaults to False.
+    """Retrieve protein information from UniProt database. Provide at least one of protein_id, protein_name, or gene_symbol.
 
     Returns:
-        dict: Protein data or error message
+        dict: Protein information with accession, proteinDescription, genes, organism, sequence, functions, keywords, references or error message.
     """
     base_url = "https://rest.uniprot.org/uniprotkb/search"
 

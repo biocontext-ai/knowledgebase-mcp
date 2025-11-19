@@ -8,39 +8,26 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def search_ontology_terms(
-    search_term: Annotated[str, Field(description="The term to search for across all ontologies")],
+    search_term: Annotated[str, Field(description="Term to search for")],
     ontologies: Annotated[
         str,
         Field(
-            description="Comma-separated list of ontology IDs to search in (e.g., 'efo,go,chebi'). Leave empty to search all ontologies. Use get_available_ontologies() to see all available ontology IDs."
+            description="Comma-separated ontology IDs (e.g., 'efo,go,chebi'). Leave empty for all. Use get_available_ontologies() to see options"
         ),
     ] = "",
     size: Annotated[
         int,
-        Field(description="The maximum number of results to return"),
+        Field(description="Maximum number of results to return"),
     ] = 20,
     exact_match: Annotated[
         bool,
-        Field(description="Whether to perform an exact match search"),
+        Field(description="Whether to perform exact match search"),
     ] = False,
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for terms across multiple ontologies.
-
-    This function provides a general search across ontologies in OLS, allowing you to
-    find terms from multiple ontologies or search all ontologies at once.
-
-    TIP: Use get_available_ontologies() first to discover which ontologies are available
-    and their IDs before searching.
-
-    Args:
-        search_term (str): The term to search for.
-        ontologies (str): Comma-separated ontology IDs (e.g., "efo,go,chebi"). Empty for all.
-                         Use get_available_ontologies() to see available options.
-        size (int): Maximum number of results to return (default: 20).
-        exact_match (bool): Whether to perform an exact match search (default: False).
+    """Search for terms across multiple ontologies in OLS. Use get_available_ontologies() first to discover ontologies.
 
     Returns:
-        dict: Dictionary containing terms from various ontologies or error message
+        dict: Terms array, terms_by_ontology grouped results, total_results, ontologies_found list or error message.
     """
     if not search_term:
         return {"error": "search_term must be provided"}

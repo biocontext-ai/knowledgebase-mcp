@@ -8,15 +8,12 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_europepmc_fulltext(
-    pmc_id: Annotated[str, Field(description="PMC ID starting with 'PMC' (e.g., 'PMC11629965')")],
+    pmc_id: Annotated[str, Field(description="PMC ID (e.g., 'PMC11629965')")],
 ) -> dict:
-    """Get the full text XML for a given PMC ID from Europe PMC.
-
-    Args:
-        pmc_id (str): PMC ID starting with "PMC" (e.g., "PMC11629965").
+    """Get full-text XML for a PMC ID. Returns the complete article XML for processing and analysis.
 
     Returns:
-        dict: Full text XML content or error message
+        dict: Full-text XML content in format {'fulltext_xml': '...'} or error message.
     """
     # Validate PMC ID format
     pmc_id = pmc_id.strip().upper()

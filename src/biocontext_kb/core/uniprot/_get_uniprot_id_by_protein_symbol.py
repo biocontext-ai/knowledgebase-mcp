@@ -8,23 +8,16 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_uniprot_id_by_protein_symbol(
-    protein_symbol: Annotated[str, Field(description="The name of the gene to search for (e.g., 'SYNPO')")],
+    protein_symbol: Annotated[str, Field(description="Gene or protein name to search for (e.g., 'SYNPO')")],
     species: Annotated[
         str,
-        Field(description="The organism ID (e.g., '9606' for human)"),
+        Field(description="Organism taxonomy ID (e.g., '9606' for human)"),
     ] = "9606",
 ) -> str | None:
-    """Query the UniProt database for the UniProt ID using the protein name.
-
-    Args:
-        protein_symbol (str): The name of the protein to search for (e.g., "SYNPO").
-        species (str): The organism ID (e.g., "9606" for human). Default is "9606".
+    """Retrieve UniProt accession ID from protein name and species. Returns the primary accession or None if not found.
 
     Returns:
-        str: The UniProt ID of the protein.
-
-    Raises:
-        ValueError: If no results are found for the given protein name.
+        str or None: UniProt accession ID string (e.g., 'P04637') or None if not found.
     """
     url = f"https://rest.uniprot.org/uniprotkb/search?query=protein_name:{protein_symbol}+AND+organism_id:{species}&format=json"
 

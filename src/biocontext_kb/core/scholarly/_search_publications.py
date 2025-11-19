@@ -13,36 +13,15 @@ logger = logging.getLogger(__name__)
 def search_google_scholar_publications(
     query: Annotated[
         str,
-        Field(
-            description="Search query for publications (e.g., 'machine learning' or 'author:\"John Smith\" deep learning')"
-        ),
+        Field(description="Search query (e.g., 'machine learning' or 'author:\"John Smith\" deep learning')"),
     ],
-    max_results: Annotated[int, Field(description="Maximum number of publications to return", ge=1, le=50)] = 10,
-    use_proxy: Annotated[bool, Field(description="Whether to use free proxies to avoid rate limiting")] = True,
+    max_results: Annotated[int, Field(description="Maximum number of publications to return (1-50)", ge=1, le=50)] = 10,
+    use_proxy: Annotated[bool, Field(description="Use free proxies to avoid rate limiting")] = True,
 ) -> Dict[str, Any]:
-    """Search for publications on Google Scholar.
-
-    Supports advanced search operators including author search using 'author:"Name"' syntax.
-
-    Examples:
-    - 'machine learning' - General topic search
-    - 'author:"John Smith"' - Publications by specific author
-    - 'author:"John Smith" neural networks' - Author's work on specific topic
-
-    WARNING: Google Scholar may block requests and IP addresses for excessive queries.
-    Publication searches are particularly prone to triggering anti-bot measures.
-    This tool automatically uses free proxies to mitigate blocking, but use responsibly.
-
-    For academic research, consider using alternative databases like PubMed/EuropePMC
-    when possible to reduce load on Google Scholar.
-
-    Args:
-        query (str): Search query for publications. Use 'author:"Name"' to search by author.
-        max_results (int): Maximum number of publications to return (default: 10, max: 50).
-        use_proxy (bool): Whether to use free proxies to avoid rate limiting (default: True).
+    """Search Google Scholar for publications with support for author search using 'author:"Name"' syntax. WARNING: Use responsibly, may block excessive queries.
 
     Returns:
-        dict: Publication search results or error message
+        dict: Publications list with title, authors, venue, year, citations, abstract, bib entry or error message.
     """
     try:
         # Set up proxy if requested

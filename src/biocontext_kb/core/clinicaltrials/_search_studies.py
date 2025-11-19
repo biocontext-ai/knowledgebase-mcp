@@ -9,58 +9,35 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def search_studies(
-    condition: Annotated[
-        Optional[str], Field(description="Medical condition or disease (e.g., 'cancer', 'diabetes')")
-    ] = None,
-    intervention: Annotated[
-        Optional[str], Field(description="Drug, therapy, or treatment name (e.g., 'aspirin', 'chemotherapy')")
-    ] = None,
-    sponsor: Annotated[Optional[str], Field(description="Study sponsor organization (e.g., 'Pfizer', 'NIH')")] = None,
+    condition: Annotated[Optional[str], Field(description="Medical condition (e.g., 'cancer')")] = None,
+    intervention: Annotated[Optional[str], Field(description="Drug/therapy name (e.g., 'aspirin')")] = None,
+    sponsor: Annotated[Optional[str], Field(description="Sponsor org (e.g., 'Pfizer')")] = None,
     status: Annotated[
         Optional[str],
         Field(
-            description="Study status: 'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', 'TERMINATED', 'SUSPENDED', 'WITHDRAWN', 'NOT_YET_RECRUITING'"
+            description="'RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED', 'TERMINATED', 'SUSPENDED', 'WITHDRAWN', or 'NOT_YET_RECRUITING'"
         ),
     ] = None,
     phase: Annotated[
-        Optional[str], Field(description="Study phase: 'PHASE1', 'PHASE2', 'PHASE3', 'PHASE4', 'EARLY_PHASE1', 'NA'")
+        Optional[str], Field(description="'PHASE1', 'PHASE2', 'PHASE3', 'PHASE4', 'EARLY_PHASE1', or 'NA'")
     ] = None,
     study_type: Annotated[
-        Optional[str], Field(description="Type of study: 'INTERVENTIONAL', 'OBSERVATIONAL', 'EXPANDED_ACCESS'")
+        Optional[str], Field(description="'INTERVENTIONAL', 'OBSERVATIONAL', or 'EXPANDED_ACCESS'")
     ] = None,
-    location_country: Annotated[
-        Optional[str], Field(description="Country where study is conducted (e.g., 'United States', 'Germany')")
-    ] = None,
-    min_age: Annotated[Optional[int], Field(description="Minimum age of participants in years", ge=0)] = None,
-    max_age: Annotated[Optional[int], Field(description="Maximum age of participants in years", ge=0)] = None,
-    sex: Annotated[Optional[str], Field(description="Sex of participants: 'ALL', 'FEMALE', 'MALE'")] = None,
-    page_size: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 25,
+    location_country: Annotated[Optional[str], Field(description="Country (e.g., 'United States')")] = None,
+    min_age: Annotated[Optional[int], Field(description="Min participant age (years)", ge=0)] = None,
+    max_age: Annotated[Optional[int], Field(description="Max participant age (years)", ge=0)] = None,
+    sex: Annotated[Optional[str], Field(description="'ALL', 'FEMALE', or 'MALE'")] = None,
+    page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 25,
     sort: Annotated[
         str,
-        Field(description="Sort order: 'LastUpdatePostDate:desc', 'StudyFirstPostDate:desc', 'EnrollmentCount:desc'"),
+        Field(description="'LastUpdatePostDate:desc', 'StudyFirstPostDate:desc', or 'EnrollmentCount:desc'"),
     ] = "LastUpdatePostDate:desc",
 ) -> Union[Dict[str, Any], dict]:
-    """Search for clinical trials studies based on various criteria.
-
-    This function allows biomedical researchers to find relevant clinical trials by searching
-    across conditions, interventions, sponsors, and other study characteristics.
-
-    Args:
-        condition (str, optional): Medical condition or disease to search for.
-        intervention (str, optional): Drug, therapy, or treatment name to search for.
-        sponsor (str, optional): Study sponsor organization.
-        status (str, optional): Current status of the study.
-        phase (str, optional): Clinical trial phase.
-        study_type (str, optional): Type of study (interventional, observational, etc.).
-        location_country (str, optional): Country where study is conducted.
-        min_age (int, optional): Minimum age of participants in years.
-        max_age (int, optional): Maximum age of participants in years.
-        sex (str, optional): Sex of participants.
-        page_size (int): Number of results to return (default: 25, max: 1000).
-        sort (str): Sort order for results (default: most recently updated).
+    """Advanced search for trials with flexible multi-field filtering. Specify at least one search parameter.
 
     Returns:
-        dict: Study search results or error message
+        dict: Paginated search results containing studies list with trial metadata or error message.
     """
     # Ensure at least one search parameter was provided
     if not any([condition, intervention, sponsor, status, phase, study_type, location_country, min_age, max_age, sex]):

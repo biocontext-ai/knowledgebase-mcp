@@ -9,42 +9,21 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_europepmc_articles(
-    query: Annotated[Optional[str], Field(description="Search query string, not specific to any field")] = None,
-    title: Annotated[Optional[str], Field(description="Search term for article titles")] = None,
-    abstract: Annotated[Optional[str], Field(description="Search term for article abstracts")] = None,
-    author: Annotated[Optional[str], Field(description="Author name (e.g., 'kuehl,malte')")] = None,
-    search_type: Annotated[str, Field(description="Search type: 'and' or 'or'")] = "or",
+    query: Annotated[Optional[str], Field(description="General search query")] = None,
+    title: Annotated[Optional[str], Field(description="Search in article titles")] = None,
+    abstract: Annotated[Optional[str], Field(description="Search in abstracts")] = None,
+    author: Annotated[Optional[str], Field(description="Author name (e.g., 'lastname,firstname')")] = None,
+    search_type: Annotated[str, Field(description="'and' or 'or' (default: 'or')")] = "or",
     sort_by: Annotated[
         Optional[str],
-        Field(description="Sort by: 'recent' for most recent, 'cited' for most cited or None for no specific sorting"),
+        Field(description="'recent' or 'cited' (default: none)"),
     ] = None,
-    page_size: Annotated[int, Field(description="Number of results to return", ge=1, le=1000)] = 25,
+    page_size: Annotated[int, Field(description="Results per page (1-1000)", ge=1, le=1000)] = 25,
 ) -> dict:
-    """Query the Europe PMC database for scientific articles.
-
-    Use 'recent' sort for current research queries and 'cited' sort for comprehensive career overviews
-    or well-established topics (e.g., "what has author X published on in their career").
-
-    Provide at least one of the following search parameters:
-    - query: General search query string
-    - title: Search term for article titles
-    - abstract: Search term for article abstracts.
-    - author: Author name (e.g., "last_name,first_name"). Should not contain spaces.
-    These will be combined with the specified search type ("and" or "or").
-    For a broad search, prefer the "query" parameter and "or" search type.
-    Only use the "and" search type if you want to ensure all terms must match.
-
-    Args:
-        query (str, optional): General search query string.
-        title (str, optional): Search term for article titles.
-        abstract (str, optional): Search term for article abstracts.
-        author (str, optional): Author name (e.g., "last_name,first_name"). Should not contain spaces.
-        search_type (str): Search type - "and" or "or" (default: "or").
-        sort_by (str): Sort by - "recent" for most recent, "cited" for most cited or None for no specific sorting (default: None).
-        page_size (int): Number of results to return (default: 25, max: 1000).
+    """Search Europe PMC articles by query, title, abstract, or author. Combine search terms with 'and'/'or' logic.
 
     Returns:
-        dict: Article search results or error message
+        dict: Search results with resultList containing articles (title, authors, abstract, journal, PMC/DOI IDs) or error message.
     """
     # Ensure at least one search parameter was provided
     if not any([query, title, abstract, author]):

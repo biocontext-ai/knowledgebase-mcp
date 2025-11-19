@@ -8,27 +8,12 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_antibody_information(
-    ab_id: Annotated[str, Field(description="Antibody ID from the Antibody Registry (e.g., '3643095')")],
+    ab_id: Annotated[str, Field(description="Antibody Registry ID (e.g., '3643095')")],
 ) -> dict:
-    """Get detailed information for a specific antibody by its ID.
-
-    This function retrieves comprehensive information about a single antibody from the Antibody Registry
-    using its unique antibody ID (abId). The antibody ID is typically obtained from the results of
-    get_antibody_list() function, where each antibody entry contains an 'abId' field that can be used
-    with this function to get detailed information.
-
-    Note: Some information provided by the Antibody Registry is for non-commercial use only.
-    Users should refer to antibodyregistry.org for complete terms of use and licensing details.
-
-    Args:
-        ab_id (str): The unique antibody ID from the Antibody Registry. This is typically obtained
-                    from the 'abId' field in the results of get_antibody_list(), unless the ID
-                    is directly provided by the user.
+    """Get detailed antibody information by ID. Retrieves catalog number, vendor, clonality, epitope, applications, and more.
 
     Returns:
-        dict: Detailed antibody information including catalog number, vendor, clonality, epitope,
-              applications, target species, isotype, source organism, citations, and other metadata,
-              or error message if the request fails.
+        dict: Antibody details including abId, catalog numbers, vendor, clonality, epitope, applications, target species, isotype, citations or error message.
     """
     ab_id = ab_id.strip()
     if not ab_id:

@@ -8,30 +8,20 @@ from biocontext_kb.core._server import core_mcp
 
 @core_mcp.tool()
 def get_efo_id_by_disease_name(
-    disease_name: Annotated[
-        str, Field(description="The name of the disease to search for (e.g., 'choledocholithiasis')")
-    ],
+    disease_name: Annotated[str, Field(description="Disease name to search for (e.g., 'choledocholithiasis')")],
     size: Annotated[
         int,
-        Field(description="The maximum number of results to return"),
+        Field(description="Maximum number of results to return"),
     ] = 5,
     exact_match: Annotated[
         bool,
-        Field(description="Whether to perform an exact match search"),
+        Field(description="Whether to perform exact match search"),
     ] = False,
 ) -> Dict[str, Any]:
-    """Query the Ontology Lookup Service (OLS) for EFO/Mondo/HP IDs related to a disease name.
-
-    This function searches for EFO IDs associated with a given disease name using the OLS API.
-    Always use this function if you need EFO IDs, e.g., for use in the Open Targets API.
-
-    Args:
-        disease_name (str): The name of the disease to search for (e.g., "SIDS").
-        size (int): Maximum number of results to return (default: 5).
-        exact_match (bool): Whether to perform an exact match search (default: False).
+    """Search OLS for EFO/Mondo/HP IDs related to a disease name. Use this to get EFO IDs for Open Targets queries.
 
     Returns:
-        dict: Dictionary containing EFO IDs and information or error message
+        dict: EFO IDs with efo_ids array containing id, label, description or error message.
     """
     if not disease_name:
         return {"error": "disease_name must be provided"}

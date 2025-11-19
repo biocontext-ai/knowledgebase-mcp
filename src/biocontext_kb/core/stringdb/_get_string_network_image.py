@@ -12,23 +12,17 @@ from biocontext_kb.core.stringdb._get_string_id import get_string_id
 
 @core_mcp.tool()
 def get_string_network_image(
-    protein_symbol: Annotated[str, Field(description="The name of the protein to search for (e.g., 'TP53')")],
-    species: Annotated[str, Field(description="The species taxonomy ID (e.g., '10090' for mouse)")],
-    flavor: Annotated[str, Field(description="The network flavor to use")] = "confidence",
-    min_score: Annotated[int, Field(description="Minimum combined score threshold", ge=0, le=1000)] = 700,
+    protein_symbol: Annotated[str, Field(description="Protein name to search for (e.g., 'TP53')")],
+    species: Annotated[str, Field(description="Species taxonomy ID (e.g., '10090' for mouse)")],
+    flavor: Annotated[
+        str, Field(description="Network flavor (e.g., 'confidence', 'evidence', 'actions')")
+    ] = "confidence",
+    min_score: Annotated[int, Field(description="Minimum combined score threshold (0-1000)", ge=0, le=1000)] = 700,
 ) -> Image | dict:
-    """Get a network image for a given protein from the STRING database.
-
-    Always provide the species parameter to ensure the correct protein is returned.
-
-    Args:
-        protein_symbol (str): The name of the protein to search for (e.g., "TP53").
-        species (str): The species taxonomy ID (e.g., "10090" for mouse).
-        flavor (str): The network flavor to use (default: "confidence").
-        min_score (int): Minimum combined score threshold (default: 700).
+    """Generate protein-protein interaction network image from STRING database. Always provide species parameter.
 
     Returns:
-        Image: The network image for the protein.
+        Image or dict: Network visualization as PNG image object or error message.
     """
     # First resolve the protein name to a STRING ID
     try:
