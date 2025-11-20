@@ -1,6 +1,6 @@
 [project]
 name = "biocontext_kb"
-version = "0.2.0"
+version = "0.2.1"
 description = "A knowledgebase MCP server for biomedical research, part of the BioContextAI project."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -18,7 +18,7 @@ classifiers = [
 dependencies = [
     "asyncio>=3.4.3,<4",
     "dotenv>=0.9.9,<1",
-    "fastmcp==2.13.0.2",
+    "fastmcp==2.13.1",
     "gql>=3.5.3,<4",
     "gunicorn>=23.0.0,<24",
     "httpx>=0.28.1",
@@ -35,13 +35,13 @@ dependencies = [
     "uvicorn-worker>=0.3.0",
 ]
 
+scripts.biocontext_kb = "biocontext_kb:run_app"
+scripts."biocontext-kb" = "biocontext_kb:run_app"
+
 [project.urls]
 Home = "https://github.com/biocontext_ai/knowledgebase-mcp"
 Source = "https://github.com/biocontext_ai/knowledgebase-mcp"
 Documentation = "https://docs.kb.biocontext.ai"
-
-[project.scripts]
-biocontext_kb = "biocontext_kb:run_app"
 
 [build-system]
 requires = ["hatchling"]
