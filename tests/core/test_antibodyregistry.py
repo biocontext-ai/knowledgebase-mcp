@@ -13,6 +13,7 @@ async def test_get_antibody_list_trpc6():
         result_text = await client.call_tool("get_antibody_list", {"search": "TRPC6"})
         result = json.loads(result_text.content[0].text)
 
+        assert "page" in result
         assert "totalElements" in result
         assert "items" in result
         assert result["totalElements"] > 0
@@ -32,6 +33,7 @@ async def test_get_antibody_list_tp53():
         result_text = await client.call_tool("get_antibody_list", {"search": "TP53"})
         result = json.loads(result_text.content[0].text)
 
+        assert "page" in result
         assert "totalElements" in result
         assert "items" in result
         assert result["totalElements"] > 0
@@ -44,6 +46,7 @@ async def test_get_antibody_list_uniprot_id():
         result_text = await client.call_tool("get_antibody_list", {"search": "P04637"})
         result = json.loads(result_text.content[0].text)
 
+        assert "page" in result
         assert "totalElements" in result
         assert "items" in result
 
@@ -64,6 +67,7 @@ async def test_get_antibody_list_nonexistent_protein():
         result_text = await client.call_tool("get_antibody_list", {"search": "NONEXISTENTPROTEIN12345"})
         result = json.loads(result_text.content[0].text)
 
+        assert "page" in result
         assert "totalElements" in result
         assert "items" in result
         assert result["totalElements"] == 0
@@ -77,7 +81,7 @@ async def test_get_antibody_information_valid_id():
         search_result = (await client.call_tool("get_antibody_list", {"search": "TRPC6"})).data
 
         if search_result["totalElements"] > 0:
-            ab_id = search_result["items"][0]["abId"]
+            ab_id = str(search_result["items"][0]["abId"])
 
             # Now get detailed information for this antibody
             result_text = await client.call_tool("get_antibody_information", {"ab_id": ab_id})
@@ -87,7 +91,7 @@ async def test_get_antibody_information_valid_id():
             assert "abId" in result
             assert "vendorName" in result
             assert "abTarget" in result
-            assert result["abId"] == ab_id
+            assert result["abId"] == int(ab_id)
 
 
 async def test_get_antibody_information_invalid_id():
@@ -120,7 +124,7 @@ async def test_antibody_workflow():
 
         # Step 2: Get detailed information for the first antibody
         first_antibody = search_result["items"][0]
-        ab_id = first_antibody["abId"]
+        ab_id = str(first_antibody["abId"])
 
         detail_result = (await client.call_tool("get_antibody_information", {"ab_id": ab_id})).data
 

@@ -28,16 +28,11 @@ def get_antibody_information(
         response.raise_for_status()
         result = response.json()
 
+        # API returns an array of antibodies
         if isinstance(result, list):
             if len(result) > 0:
-                # If result is a list, return the first item
+                # Return the first item from the array
                 return result[0]
-            else:
-                return {"error": f"No data found for antibody ID: {ab_id}"}
-        elif isinstance(result, dict):
-            # If result is a dict, return it directly
-            if "abId" in result and result["abId"] == ab_id:
-                return result
             else:
                 return {"error": f"No data found for antibody ID: {ab_id}"}
         else:
