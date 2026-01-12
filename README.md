@@ -18,7 +18,7 @@ A Model Context Protocol (MCP) server for biomedical research that provides a st
 The Knowledgebase MCP is available both as:
 
 - An open-source software package for local hosting (see [Installation](#installation)) - **Choose this option for Claude Desktop, IDEs or your own agentic systems**
-- A remote server for setup-free integration at https://mcp.biocontext.ai/mcp/ (for testing purposes only, subject to fair use)
+- A remote server for setup-free integration at https://biocontext-kb.fastmcp.app/mcp (for testing purposes only, subject to fair use)
 
 > [!WARNING]
 > If possible, we encourage you to run BioContextAI Knowledgebase MCP locally to avoid rate limits and ensure the service's availability for applications that rely on remote hosting.
