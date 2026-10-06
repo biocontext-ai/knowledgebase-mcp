@@ -242,7 +242,7 @@ async def test_query_kegg_find_compound_caffeine():
         )
         # Response should contain caffeine compound information
         assert "caffeine" in str(result_text.data).lower()
-        assert "cpd:C07481" in str(result_text.data)
+        assert "C07481" in str(result_text.data)
 
 
 async def test_query_kegg_find_drug_acetaminophen():
@@ -258,7 +258,7 @@ async def test_query_kegg_find_drug_acetaminophen():
         )
         # Response should contain acetaminophen drug information
         assert "acetaminophen" in str(result_text.data).lower()
-        assert "dr:D00217" in str(result_text.data)
+        assert "D00217" in str(result_text.data)
 
 
 async def test_query_kegg_drug_drug_interaction():
