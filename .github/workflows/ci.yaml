@@ -56,3 +56,21 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  fresh-deps:
+    # uv.lock hides upstream breakage that uvx/pip users hit on a fresh resolve (#4).
+    runs-on: ubuntu-24.04
+    name: Fresh dependency resolve (no lockfile)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+      - name: Install package as users do (ignores uv.lock)
+        run: |
+          uv venv --python 3.12 /tmp/fresh
+          uv pip install --python /tmp/fresh .
+      - name: Import every tool module, including optional ones
+        run: |
+          /tmp/fresh/bin/python -c "import biocontext_kb.core, biocontext_kb.core.scholarly, biocontext_kb.core.kegg"

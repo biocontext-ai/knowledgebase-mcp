@@ -17,6 +17,8 @@ classifiers = [
 ]
 dependencies = [
     "asyncio>=3.4.3,<4",
+    # scholarly 1.7.11 uses the bibtexparser 1.x API (bibtexparser.bibdatabase), removed in 2.0 (#4)
+    "bibtexparser>=1.4.3,<2",
     "dotenv>=0.9.9,<1",
     "fastmcp==2.13.1",
     "gql>=3.5.3,<4",

@@ -171,6 +171,7 @@ version = "0.2.1"
 source = { editable = "." }
 dependencies = [
     { name = "asyncio" },
+    { name = "bibtexparser" },
     { name = "dotenv" },
     { name = "fastmcp" },
     { name = "gql" },
@@ -212,6 +213,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "asyncio", specifier = ">=3.4.3,<4" },
+    { name = "bibtexparser", specifier = ">=1.4.3,<2" },
     { name = "dotenv", specifier = ">=0.9.9,<1" },
     { name = "fastmcp", specifier = "==2.13.1" },
     { name = "gql", specifier = ">=3.5.3,<4" },

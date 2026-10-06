@@ -1,3 +1,4 @@
+import logging
 import os
 
 from ._server import core_mcp
@@ -25,7 +26,11 @@ if os.getenv("MCP_ENVIRONMENT") != "PRODUCTION" or os.getenv("MCP_INCLUDE_KEGG",
 
 # Google Scholar is rate-limited and not suitable for production use, but can be used locally for testing.
 if os.getenv("MCP_ENVIRONMENT") != "PRODUCTION" or os.getenv("MCP_INCLUDE_SCHOLARLY", "false").lower() == "true":
-    from .scholarly import *
+    # scholarly is unmaintained; a broken install must not take down the whole server (#4).
+    try:
+        from .scholarly import *
+    except ImportError as e:
+        logging.getLogger(__name__).warning("Google Scholar tools disabled: failed to import scholarly: %s", e)
 
 __all__ = [
     "core_mcp",
