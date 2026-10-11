@@ -41,6 +41,17 @@ async def test_get_alphafold_info_by_protein_symbol_invalid_symbol():
         assert "No results found for the given protein name" in result["error"]
 
 
+async def test_get_alphafold_info_by_protein_symbol_ambiguous_symbol():
+    """Test that an ambiguous symbol returns the UniProt candidates instead of a guessed structure."""
+    async with Client(core_mcp) as client:
+        result = (
+            await client.call_tool("get_alphafold_info_by_protein_symbol", {"protein_symbol": "CDKN2A", "species": "9606"})
+        ).data
+
+        assert "Ambiguous" in result["error"]
+        assert {c["accession"] for c in result["candidates"]} == {"P42771", "Q8N726"}
+
+
 async def test_get_alphafold_info_by_protein_symbol_missing_params():
     """Test the tool get_alphafold_info_by_protein_symbol is called with missing parameters."""
     async with Client(core_mcp) as client:

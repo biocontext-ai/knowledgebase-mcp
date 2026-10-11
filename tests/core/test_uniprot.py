@@ -256,6 +256,16 @@ async def test_get_uniprot_id_by_protein_symbol_invalid_symbol():
         assert "No UniProt entry found" in result["error"]
 
 
+async def test_get_uniprot_id_by_protein_symbol_empty_symbol():
+    """Test the tool get_uniprot_id_by_protein_symbol with a symbol that is empty after sanitizing."""
+    async with Client(core_mcp) as client:
+        result = (
+            await client.call_tool("get_uniprot_id_by_protein_symbol", {"protein_symbol": ' " ', "species": "9606"})
+        ).data
+
+        assert result == {"error": "protein_symbol must not be empty."}
+
+
 async def test_get_uniprot_id_by_protein_symbol_missing_params():
     """Test the tool get_uniprot_id_by_protein_symbol with missing parameters."""
     async with Client(core_mcp) as client:
