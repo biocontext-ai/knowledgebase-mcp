@@ -27,10 +27,10 @@ def get_alphafold_info_by_protein_symbol(
     """
     # Get the UniProt Id from the protein_symbol
     try:
-        uniprot_id = get_uniprot_id_by_protein_symbol.fn(protein_symbol, species)
+        lookup = get_uniprot_id_by_protein_symbol.fn(protein_symbol, species)
 
-        if uniprot_id:
-            result = get_alphafold_info_by_uniprot_id(uniprot_id)
+        if "error" not in lookup:
+            result = get_alphafold_info_by_uniprot_id(lookup["accession"])
             if isinstance(result, dict) and "error" in result:
                 return {"error": result["error"]}
             elif isinstance(result, list) and len(result) > 0:
@@ -42,6 +42,9 @@ def get_alphafold_info_by_protein_symbol(
             else:
                 return {"error": "Unexpected result format from AlphaFold query"}
         else:
-            return {"error": "No results found for the given protein name"}
+            if "candidates" in lookup:
+                # Ambiguous symbol: return the candidates instead of guessing one
+                return lookup
+            return {"error": f"No results found for the given protein name: {lookup['error']}"}
     except requests.exceptions.RequestException as e:
         return {"error": f"Failed to fetch AlphaFold info: {e!s}"}

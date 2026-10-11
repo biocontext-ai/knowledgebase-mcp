@@ -168,25 +168,78 @@ async def test_get_uniprot_protein_info_case_sensitivity():
 async def test_get_uniprot_id_by_protein_symbol_valid():
     """Test the tool get_uniprot_id_by_protein_symbol with a valid protein symbol."""
     async with Client(core_mcp) as client:
-        # Using TP53 gene symbol for human (9606)
-        result_text = await client.call_tool(
-            "get_uniprot_id_by_protein_symbol", {"protein_symbol": "TP53", "species": "9606"}
-        )
-        result = result_text.content[0].text
+        # Using TP53 gene symbol for human (9606); a protein name search would return TP53TG5 (Q9Y2B4) instead (#5)
+        result = (
+            await client.call_tool("get_uniprot_id_by_protein_symbol", {"protein_symbol": "TP53", "species": "9606"})
+        ).data
 
-        # Verify the correct UniProt ID is returned
-        assert result == "Q9Y2B4"
+        assert result["accession"] == "P04637"
+        assert result["gene"] == "TP53"
+        assert result["reviewed"] is True
+        assert result["match_type"] == "gene"
+
+
+@pytest.mark.parametrize(
+    ("protein_symbol", "species", "accession", "match_type"),
+    [
+        ("NPHS2", "9606", "Q9NP85", "gene"),
+        ("Nphs2", "10090", "Q91X05", "gene"),
+        ("SYNPO", "9606", "Q8N3V7", "gene"),
+        ("p53", "9606", "P04637", "synonym"),
+        ("Podocin", "9606", "Q9NP85", "protein_name"),
+        # gene_exact also matches the unreviewed gene "serum albumin" (Q16167); only exact names count
+        ("albumin", "9606", "P02768", "protein_name"),
+    ],
+)
+async def test_get_uniprot_id_by_protein_symbol_canonical_entry(protein_symbol, species, accession, match_type):
+    """Test that the tool returns the reviewed canonical entry for the cases reported in #5."""
+    async with Client(core_mcp) as client:
+        result = (
+            await client.call_tool(
+                "get_uniprot_id_by_protein_symbol", {"protein_symbol": protein_symbol, "species": species}
+            )
+        ).data
+
+        assert result["accession"] == accession
+        assert result["reviewed"] is True
+        assert result["match_type"] == match_type
+
+
+async def test_get_uniprot_id_by_protein_symbol_ambiguous():
+    """Test that an ambiguous symbol returns all reviewed candidates instead of picking one."""
+    async with Client(core_mcp) as client:
+        # CDKN2A encodes both p16INK4a (P42771) and p14ARF (Q8N726)
+        result = (
+            await client.call_tool("get_uniprot_id_by_protein_symbol", {"protein_symbol": "CDKN2A", "species": "9606"})
+        ).data
+
+        assert "error" in result
+        assert {c["accession"] for c in result["candidates"]} == {"P42771", "Q8N726"}
+
+
+async def test_get_uniprot_id_by_protein_symbol_unreviewed_fallback():
+    """Test the fallback to unreviewed entries when no reviewed entry exists."""
+    async with Client(core_mcp) as client:
+        # Zebrafish nphs2 has no Swiss-Prot entry
+        result = (
+            await client.call_tool("get_uniprot_id_by_protein_symbol", {"protein_symbol": "nphs2", "species": "7955"})
+        ).data
+
+        assert result["reviewed"] is False
+        assert result["gene"] == "nphs2"
+        assert result["match_type"] == "gene"
 
 
 async def test_get_uniprot_id_by_protein_symbol_invalid_symbol():
     """Test the tool get_uniprot_id_by_protein_symbol with a nonexistent protein symbol."""
     async with Client(core_mcp) as client:
-        result = await client.call_tool(
-            "get_uniprot_id_by_protein_symbol", {"protein_symbol": "NONEXISTENTGENE12345", "species": "9606"}
-        )
+        result = (
+            await client.call_tool(
+                "get_uniprot_id_by_protein_symbol", {"protein_symbol": "NONEXISTENTGENE12345", "species": "9606"}
+            )
+        ).data
 
-        assert isinstance(result.content, list)
-        assert len(result.content) == 0
+        assert "No UniProt entry found" in result["error"]
 
 
 async def test_get_uniprot_id_by_protein_symbol_missing_params():

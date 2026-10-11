@@ -21,8 +21,8 @@ async def test_get_alphafold_info_by_protein_symbol_valid():
 
         # Verify the response is a dict with links to PDB and CIF files
         assert isinstance(result, dict)
-        assert "gene" in result
-        assert "TP53" in result["gene"]
+        assert result["uniprotAccession"] == "P04637"
+        assert result["gene"] == "TP53"
         assert "pdbUrl" in result
         assert "cifUrl" in result
 
@@ -60,6 +60,14 @@ def test_get_alphafold_info_by_uniprot_id_valid():
     assert result[0]["gene"] == "Synpo"
     assert "pdbUrl" in result[0]
     assert "cifUrl" in result[0]
+
+
+def test_get_alphafold_info_by_uniprot_id_ten_character_accession():
+    """Test the function get_alphafold_info_by_uniprot_id with a 10-character (TrEMBL) accession."""
+    result = get_alphafold_info_by_uniprot_id("A0A8I3PMM3")
+
+    assert isinstance(result, list)
+    assert result[0]["uniprotAccession"] == "A0A8I3PMM3"
 
 
 def test_get_alphafold_info_by_uniprot_id_invalid_format():
