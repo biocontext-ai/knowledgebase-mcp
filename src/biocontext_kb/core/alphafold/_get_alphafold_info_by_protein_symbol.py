@@ -43,7 +43,7 @@ def get_alphafold_info_by_protein_symbol(
                 return {"error": "Unexpected result format from AlphaFold query"}
         else:
             if "candidates" in lookup:
-                # Ambiguous symbol: return the candidates instead of guessing one
+                # Ambiguous or only partial matches: return the candidates instead of guessing one
                 return lookup
             return {"error": f"No results found for the given protein name: {lookup['error']}"}
     except requests.exceptions.RequestException as e:

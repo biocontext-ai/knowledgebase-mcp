@@ -230,6 +230,20 @@ async def test_get_uniprot_id_by_protein_symbol_unreviewed_fallback():
         assert result["match_type"] == "gene"
 
 
+async def test_get_uniprot_id_by_protein_symbol_partial_name():
+    """Test that partial protein name matches are listed as candidates instead of picking one."""
+    async with Client(core_mcp) as client:
+        result = (
+            await client.call_tool(
+                "get_uniprot_id_by_protein_symbol", {"protein_symbol": "hemoglobin", "species": "9606"}
+            )
+        ).data
+
+        assert "No exact match" in result["error"]
+        assert result["candidates"]
+        assert all("emoglobin" in c["protein_name"] for c in result["candidates"])
+
+
 async def test_get_uniprot_id_by_protein_symbol_invalid_symbol():
     """Test the tool get_uniprot_id_by_protein_symbol with a nonexistent protein symbol."""
     async with Client(core_mcp) as client:

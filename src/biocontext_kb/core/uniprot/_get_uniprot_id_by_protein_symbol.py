@@ -103,12 +103,13 @@ def get_uniprot_id_by_protein_symbol(
     """Retrieve the UniProt accession for a gene symbol and species. Prefers reviewed (Swiss-Prot) entries.
 
     Returns:
-        dict: accession, gene, protein_name, reviewed, match_type ('gene', 'synonym' or 'protein_name') and other candidates, or error message (with candidates if ambiguous).
+        dict: accession, gene, protein_name, reviewed, match_type ('gene', 'synonym' or 'protein_name') and other candidates, or error message (with candidates if ambiguous or only partially matching).
     """
     symbol = protein_symbol.replace('"', "").replace("\\", "").strip()
     if not symbol:
         return {"error": "protein_symbol must not be empty."}
     organism = f"organism_id:{str(species).strip()}"
+    partial_matches: list[dict[str, Any]] = []
 
     try:
         # Gene symbols first, protein names as a last resort; reviewed entries before unreviewed ones. Both searches
@@ -120,7 +121,15 @@ def get_uniprot_id_by_protein_symbol(
                 matches = [(entry, match_type) for entry, match_type in matches if match_type]
                 if matches:
                     return _pick(matches, symbol)
+                if field == "protein_name" and not partial_matches:
+                    partial_matches = entries
     except requests.exceptions.RequestException as e:
         return {"error": f"Failed to query UniProt: {e!s}"}
 
+    if partial_matches:
+        # Offer the partial protein name matches, but don't pick one: the first hit is often the wrong protein (#5)
+        return {
+            "error": f"No exact match for '{symbol}' in organism {species}. Partial protein name matches are listed.",
+            "candidates": [_summarize(entry) for entry in partial_matches[:5]],
+        }
     return {"error": f"No UniProt entry found for '{symbol}' in organism {species}."}
