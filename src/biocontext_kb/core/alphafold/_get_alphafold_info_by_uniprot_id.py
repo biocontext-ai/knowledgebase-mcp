@@ -17,7 +17,7 @@ def get_alphafold_info_by_uniprot_id(
     uniprot_id = uniprot_id.upper()
 
     # Validate the UniProt ID format
-    if not re.match(r"^[A-Z0-9]{6}$", uniprot_id):
+    if not re.match(r"^[A-Z0-9]{6}([A-Z0-9]{4})?$", uniprot_id):
         return {"error": "Invalid UniProt ID format"}
 
     # Construct the URL for AlphaFold database query
